@@ -114,13 +114,34 @@ body{
 .view-all{font-size:11px;color:var(--primary);font-weight:600;cursor:pointer}
 
 /* Hero punch button (Home for HRMS) */
-.punch-section{margin:6px 0 14px}
-.punch-hero{display:flex;flex-direction:column;align-items:center;gap:6px;margin:8px 0 12px;position:relative}
-.punch-orb{width:130px;height:130px;border-radius:50%;background:radial-gradient(circle at 30% 25%,#3a2f1f 0%,#1a1812 70%);display:flex;align-items:center;justify-content:center;position:relative;box-shadow:0 0 60px rgba(229,206,43,0.45),0 0 100px rgba(229,206,43,0.30),inset 0 1px 0 rgba(255,255,255,0.10);cursor:pointer}
-.punch-orb::before{content:"";position:absolute;inset:-3px;border-radius:50%;background:conic-gradient(from 0deg,#E5CE2B 0%,#fbbf24 25%,#E5CE2B 50%,#9c8b1a 75%,#E5CE2B 100%);z-index:-1;filter:blur(1px)}
-.punch-orb svg{width:44px;height:44px;color:var(--primary-fg)}
-.punch-label{font-size:13px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;color:#fff;margin-top:2px}
-.punch-sub{font-size:10px;color:var(--muted)}
+.punch-section{margin:6px 0 14px;text-align:center;padding:18px 0}
+.punch-section::before{content:"";position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:280px;height:280px;border-radius:50%;background:radial-gradient(circle,rgba(229,206,43,0.25) 0%,rgba(229,206,43,0.08) 40%,transparent 70%);z-index:-1;pointer-events:none}
+.punch-hero{display:flex;flex-direction:column;align-items:center;gap:8px;margin:14px 0 16px;position:relative}
+.punch-orb{width:172px;height:172px;border-radius:50%;background:radial-gradient(circle at 30% 25%,#3a2f1f 0%,#1a1812 70%);display:flex;align-items:center;justify-content:center;position:relative;box-shadow:0 0 80px rgba(229,206,43,0.58),0 0 140px rgba(229,206,43,0.32),inset 0 1px 0 rgba(255,255,255,0.12);cursor:pointer;transition:transform 0.15s}
+.punch-orb:hover{transform:scale(1.02)}
+.punch-orb::before{content:"";position:absolute;inset:-4px;border-radius:50%;background:conic-gradient(from 0deg,#E5CE2B 0%,#fbbf24 25%,#E5CE2B 50%,#9c8b1a 75%,#E5CE2B 100%);z-index:-1;filter:blur(2px)}
+.punch-orb::after{content:"";position:absolute;inset:8px;border-radius:50%;border:1px solid rgba(255,255,255,0.06);pointer-events:none}
+.punch-orb svg{width:60px;height:60px;color:var(--primary-fg)}
+.punch-label{font-size:16px;font-weight:700;letter-spacing:0.10em;text-transform:uppercase;color:#fff;margin-top:6px}
+.punch-sub{font-size:11px;color:var(--muted);letter-spacing:0.02em}
+
+/* Google Pay style icon tray */
+.icon-tray{display:grid;grid-template-columns:repeat(4,1fr);gap:14px 6px;margin:8px 0 16px}
+.icon-tray-item{display:flex;flex-direction:column;align-items:center;gap:6px;cursor:pointer;position:relative;transition:transform 0.15s}
+.icon-tray-item:hover{transform:translateY(-1px)}
+.ti-circle{width:54px;height:54px;border-radius:50%;display:flex;align-items:center;justify-content:center;transition:transform 0.15s;border:1px solid rgba(255,255,255,0.06)}
+.icon-tray-item:hover .ti-circle{transform:scale(1.05)}
+.ti-circle svg{width:22px;height:22px}
+.ti-label{font-size:10px;font-weight:500;line-height:1.2;text-align:center;max-width:74px;color:var(--fg)}
+.ti-badge{position:absolute;top:-2px;right:14px;background:var(--destructive);color:#fff;font-size:8.5px;font-weight:700;border-radius:8px;padding:1px 5px;min-width:14px;text-align:center;line-height:1.4;border:1.5px solid #1a1a1c}
+.ti-circle.tint-yellow{background:rgba(229,206,43,0.16);color:var(--primary)}
+.ti-circle.tint-teal{background:rgba(40,141,133,0.22);color:#5fb3a9}
+.ti-circle.tint-peach{background:rgba(240,169,145,0.20);color:var(--peach)}
+.ti-circle.tint-rose{background:rgba(229,82,79,0.20);color:#fca5a5}
+.ti-circle.tint-info{background:rgba(59,130,246,0.22);color:#93c5fd}
+.ti-circle.tint-purple{background:rgba(168,85,247,0.22);color:#c4b5fd}
+.ti-circle.tint-bronze{background:rgba(212,173,68,0.22);color:#d4ad44}
+.ti-circle.tint-green{background:rgba(16,185,129,0.20);color:#34d399}
 
 .time-card{padding:14px;text-align:center;margin-bottom:8px}
 .time-big{font-size:32px;font-weight:600;font-feature-settings:"tnum";letter-spacing:-0.02em;line-height:1}
@@ -521,34 +542,79 @@ const todayScheduleBlock = (variant='full') => {
 };
 
 const punchHero = () => `
-  <div class="glass time-card">
-    <div class="time-big">05:06<small>PM</small></div>
-    <div class="time-meta">Thursday, 7 May · IST</div>
-    <div class="time-status"><span class="dot"></span>Branch open · Flexible hours</div>
-  </div>
-  <div class="elapsed">
-    <div class="elapsed-track"><div class="elapsed-fill" style="width:84%"></div></div>
-    <div class="elapsed-labels"><span>9h goal</span><span><b>7h 36m</b></span></div>
+  <div style="text-align:center;font-size:11px;color:var(--muted);margin:8px 0 4px;letter-spacing:0.02em">
+    <b style="color:var(--fg);font-size:13px;font-feature-settings:'tnum';letter-spacing:-0.01em">05:06 PM</b> &nbsp;·&nbsp; Thursday, 7 May &nbsp;·&nbsp; IST
   </div>
   <div class="punch-hero">
     <div class="punch-orb">${I('i-punch')}</div>
     <div class="punch-label">Punch Out</div>
     <div class="punch-sub">Tap &amp; hold to confirm</div>
   </div>
-  <div class="punch-chips">
+  <div class="elapsed" style="max-width:230px;margin:12px auto 8px">
+    <div class="elapsed-track"><div class="elapsed-fill" style="width:84%"></div></div>
+    <div class="elapsed-labels"><span>9h goal</span><span><b>7h 36m</b></span></div>
+  </div>
+  <div class="punch-chips" style="max-width:280px;margin:10px auto 4px">
     <div class="punch-chip"><div class="pc-row" style="color:var(--success)">${I('i-arrow-ul')}In</div><div class="pc-val">09:30 AM</div></div>
     <div class="punch-chip"><div class="pc-row">${I('i-arrow-dr')}Out</div><div class="pc-val empty">--:--</div></div>
     <div class="punch-chip"><div class="pc-row" style="color:var(--primary)">${I('i-clock')}Total</div><div class="pc-val">07:36</div></div>
   </div>`;
 
-const quickRequestRow = () => `
-  <h2 class="title-2">Quick Requests</h2>
-  <div class="qr-row">
-    <div class="qr-tile">${I('i-cal-sub')}<div class="qr-label">Leave</div></div>
-    <div class="qr-tile">${I('i-clock')}<div class="qr-label">Overtime</div></div>
-    <div class="qr-tile">${I('i-rupee')}<div class="qr-label">Advance</div></div>
-    <div class="qr-tile">${I('i-card')}<div class="qr-label">Reimburse</div></div>
+/* Google Pay style icon tray for Home shortcuts */
+const iconTray = (items) => `
+  <div class="icon-tray">
+    ${items.map(it => `
+      <div class="icon-tray-item">
+        <div class="ti-circle tint-${it.tint}">${I(it.icon)}</div>
+        <div class="ti-label">${it.label}</div>
+        ${it.badge ? `<div class="ti-badge">${it.badge}</div>` : ''}
+      </div>
+    `).join('')}
   </div>`;
+
+/* Persona-specific shortcut tray items */
+const trayItems = {
+  A: [
+    {icon:'i-tasks',     label:'New Task',   tint:'yellow'},
+    {icon:'i-meet',      label:'New Meet',   tint:'teal'},
+    {icon:'i-note',      label:'New Note',   tint:'purple'},
+    {icon:'i-bell-add',  label:'Reminder',   tint:'peach'},
+    {icon:'i-cloud',     label:'My Drive',   tint:'info'},
+    {icon:'i-cal-sub',   label:'Calendar',   tint:'rose'},
+    {icon:'i-search',    label:'Find',       tint:'bronze'},
+    {icon:'i-star',      label:'Upgrade',    tint:'yellow'},
+  ],
+  B: [
+    {icon:'i-cal-sub',   label:'Apply Leave',tint:'peach'},
+    {icon:'i-clock',     label:'Apply OT',   tint:'teal'},
+    {icon:'i-rupee',     label:'Advance',    tint:'yellow'},
+    {icon:'i-card',      label:'Reimburse',  tint:'info'},
+    {icon:'i-doc',       label:'Payslip',    tint:'green'},
+    {icon:'i-trend',     label:'Attendance', tint:'bronze'},
+    {icon:'i-gift',      label:'Holidays',   tint:'rose'},
+    {icon:'i-book',      label:'Handbook',   tint:'purple'},
+  ],
+  D: [
+    {icon:'i-check-seal',label:'Approvals',  tint:'yellow', badge:'4'},
+    {icon:'i-star',      label:'Mgmt Review',tint:'rose',   badge:'15'},
+    {icon:'i-people',    label:'Register',   tint:'info'},
+    {icon:'i-megaphone', label:'Announce',   tint:'peach'},
+    {icon:'i-cal-sub',   label:'Apply Leave',tint:'teal'},
+    {icon:'i-doc',       label:'Documents',  tint:'purple'},
+    {icon:'i-chart',     label:'Reports',    tint:'bronze'},
+    {icon:'i-pin',       label:'Location',   tint:'green'},
+  ],
+  E: [
+    {icon:'i-check-seal',label:'Approvals',  tint:'yellow', badge:'4'},
+    {icon:'i-star',      label:'Mgmt Review',tint:'rose',   badge:'15'},
+    {icon:'i-people',    label:'Register',   tint:'info'},
+    {icon:'i-bldg',      label:'Branches',   tint:'teal'},
+    {icon:'i-megaphone', label:'Announce',   tint:'peach'},
+    {icon:'i-chart',     label:'Reports',    tint:'bronze'},
+    {icon:'i-monitor',   label:'Web Admin',  tint:'purple'},
+    {icon:'i-pin',       label:'Location',   tint:'green'},
+  ],
+};
 
 const branchPulse = (label, present, total, absent, leave) => `
   <div class="glass who-hero">
@@ -583,6 +649,7 @@ const homeFor = (p) => {
     return `
       <h1 class="title-1">Good evening, Jordan</h1>
       <p class="subhead">Thursday, 7 May 2026</p>
+      ${iconTray(trayItems.A)}
       ${todayScheduleBlock()}
       ${birthdayBlock()}
     `;
@@ -592,7 +659,7 @@ const homeFor = (p) => {
       <h1 class="title-1">Good evening</h1>
       <p class="subhead">Sayantan · Thu, 7 May 2026</p>
       ${punchHero()}
-      ${quickRequestRow()}
+      ${iconTray(trayItems.B)}
       ${todayScheduleBlock()}
       ${birthdayBlock()}
       ${announcementsBlock()}
@@ -604,10 +671,10 @@ const homeFor = (p) => {
     return `
       <h1 class="title-1">Good evening</h1>
       <p class="subhead">Sayantan · Branch Manager · Thu, 7 May</p>
+      ${punchHero()}
       ${branchPulse('Head Office', 7, 18, 10, 1)}
       ${manageOfficeCard('Head Office', 4)}
-      ${punchHero()}
-      ${quickRequestRow()}
+      ${iconTray(trayItems.D)}
       ${todayScheduleBlock()}
       ${announcementsBlock()}
       ${birthdayBlock()}
@@ -617,6 +684,7 @@ const homeFor = (p) => {
     return `
       <h1 class="title-1">Good evening</h1>
       <p class="subhead">Sayantan · CEO · Thu, 7 May</p>
+      ${punchHero()}
       ${branchPulse('all branches', 7, 23, 15, 1)}
       <div class="glass" style="padding:12px;margin-bottom:10px">
         <div style="font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:0.04em;margin-bottom:6px">Branch Breakdown</div>
@@ -625,7 +693,7 @@ const homeFor = (p) => {
         <div class="row-between" style="font-size:11px;padding:3px 0"><span>Mumbai</span><span><b>0</b><span class="muted">/3</span></span></div>
       </div>
       ${manageOfficeCard('All Branches', 4)}
-      ${punchHero()}
+      ${iconTray(trayItems.E)}
       ${todayScheduleBlock('ceo')}
       ${announcementsBlock()}
       ${eotmBlock()}
@@ -741,6 +809,7 @@ const meScreen = (p) => {
   const cfg = personas[p].profile;
   const isProd = !cfg.hrms;
   const isManager = cfg.manager || cfg.ceo;
+  const payAmount = cfg.ceo ? '4,82,000' : (cfg.manager ? '92,500' : '7,302');
   return `
     <div class="glass profile">
       <div class="profile-avatar">${cfg.initials}</div>
@@ -757,32 +826,51 @@ const meScreen = (p) => {
     </div>
 
     ${!isProd ? `
-    <div class="glass pay-card">
-      <div class="pay-row1"><span>This month</span><span>May 2026</span></div>
-      <div class="pay-amt"><small>₹</small>${cfg.ceo ? '4,82,000' : (cfg.manager ? '92,500' : '7,302')}</div>
-      <div class="pay-sub">Net Pay</div>
-      <div class="pay-cta"><span style="color:var(--muted);font-size:11px">Next payslip in 24 days</span><span>View payslip ${I('i-chev-r')}</span></div>
-    </div>` : ''}
+      <div class="glass pay-card">
+        <div class="pay-row1"><span>This month · May 2026</span><span style="color:var(--success)">Credited 1st</span></div>
+        <div class="pay-amt"><small>₹</small>${payAmount}</div>
+        <div class="pay-sub">Net Pay</div>
+        <div style="display:flex;gap:6px;margin-top:8px;font-size:10px">
+          <span style="display:flex;align-items:center;gap:4px"><span style="width:8px;height:8px;border-radius:2px;background:var(--success);display:inline-block"></span>Earnings ${cfg.ceo?'₹5,12,000':(cfg.manager?'₹95,500':'₹7,452')}</span>
+          <span style="display:flex;align-items:center;gap:4px;color:var(--muted)"><span style="width:8px;height:8px;border-radius:2px;background:var(--destructive);display:inline-block"></span>Deductions ${cfg.ceo?'₹30,000':(cfg.manager?'₹3,000':'₹150')}</span>
+        </div>
+        <div class="pay-cta"><span style="color:var(--muted);font-size:11px">Next payslip in 24 days</span><span>View payslip ${I('i-chev-r')}</span></div>
+      </div>
 
-    ${isProd ? `
-    <h2 class="title-2">My Productivity</h2>
-    <div class="settings-row"><div class="list-icon">${I('i-note')}</div><div class="settings-body"><div class="settings-title">Notes</div><div class="settings-meta">23 notes</div></div>${I('i-chev-r')}</div>
-    <div class="settings-row"><div class="list-icon">${I('i-cloud')}</div><div class="settings-body"><div class="settings-title">My Drive</div><div class="settings-meta">2.4 GB used</div></div>${I('i-chev-r')}</div>
-    <div class="settings-row"><div class="list-icon">${I('i-bell-add')}</div><div class="settings-body"><div class="settings-title">Reminders</div><div class="settings-meta">5 active</div></div>${I('i-chev-r')}</div>
-    <div class="settings-row"><div class="list-icon">${I('i-cal-sub')}</div><div class="settings-body"><div class="settings-title">Calendar Sync</div><div class="settings-meta">Apple Calendar · Connected</div></div>${I('i-chev-r')}</div>
+      <h2 class="title-2">Activity</h2>
+      <div class="att-grid" style="margin-bottom:14px">
+        <div class="att-tile"><div class="num" style="color:var(--primary)">2</div><div class="lbl">Pending</div></div>
+        <div class="att-tile"><div class="num" style="color:var(--success)">12</div><div class="lbl">Approved</div></div>
+        <div class="att-tile"><div class="num">12</div><div class="lbl">Leaves Left</div></div>
+        <div class="att-tile"><div class="num" style="color:var(--success)">86%</div><div class="lbl">Attendance</div></div>
+      </div>
+
+      <h2 class="title-2">My Records</h2>
+      <div class="settings-row"><div class="list-icon warn">${I('i-card')}</div>
+        <div class="settings-body"><div class="settings-title">My Requests</div><div class="settings-meta">12 approved · <span style="color:#facc15">2 pending</span></div></div>${I('i-chev-r')}</div>
+      <div class="settings-row"><div class="list-icon success">${I('i-rupee')}</div>
+        <div class="settings-body"><div class="settings-title">My Salary Slips</div><div class="settings-meta">5 months · tap to download PDF</div></div>${I('i-chev-r')}</div>
+      <div class="settings-row"><div class="list-icon info">${I('i-cal-sub')}</div>
+        <div class="settings-body"><div class="settings-title">My Leaves</div><div class="settings-meta">3 used · 12 remaining this year</div></div>${I('i-chev-r')}</div>
+      <div class="settings-row"><div class="list-icon">${I('i-trend')}</div>
+        <div class="settings-body"><div class="settings-title">My Attendance</div><div class="settings-meta">May · 6 of 7 working days</div></div>${I('i-chev-r')}</div>
+      <div class="settings-row"><div class="list-icon">${I('i-doc')}</div>
+        <div class="settings-body"><div class="settings-title">Documents</div><div class="settings-meta">Payslips, ID proofs, agreements</div></div>${I('i-chev-r')}</div>
+      <div class="settings-row"><div class="list-icon">${I('i-book')}</div>
+        <div class="settings-body"><div class="settings-title">Employee Handbook</div><div class="settings-meta">Policies &amp; guidelines</div></div>${I('i-chev-r')}</div>
     ` : `
-    <h2 class="title-2">My HR</h2>
-    <div class="settings-row"><div class="list-icon">${I('i-cal-sub')}</div><div class="settings-body"><div class="settings-title">My Leaves</div><div class="settings-meta">3 used · 12 remaining</div></div>${I('i-chev-r')}</div>
-    <div class="settings-row"><div class="list-icon">${I('i-trend')}</div><div class="settings-body"><div class="settings-title">My Attendance</div><div class="settings-meta">May · 6 of 7 working days</div></div>${I('i-chev-r')}</div>
-    <div class="settings-row"><div class="list-icon">${I('i-doc')}</div><div class="settings-body"><div class="settings-title">Documents</div><div class="settings-meta">Payslips, ID proofs, agreements</div></div>${I('i-chev-r')}</div>
-    <div class="settings-row"><div class="list-icon">${I('i-book')}</div><div class="settings-body"><div class="settings-title">Employee Handbook</div><div class="settings-meta">Policies &amp; guidelines</div></div>${I('i-chev-r')}</div>
+      <h2 class="title-2">My Productivity</h2>
+      <div class="settings-row"><div class="list-icon">${I('i-note')}</div><div class="settings-body"><div class="settings-title">Notes</div><div class="settings-meta">23 notes</div></div>${I('i-chev-r')}</div>
+      <div class="settings-row"><div class="list-icon">${I('i-cloud')}</div><div class="settings-body"><div class="settings-title">My Drive</div><div class="settings-meta">2.4 GB used</div></div>${I('i-chev-r')}</div>
+      <div class="settings-row"><div class="list-icon">${I('i-bell-add')}</div><div class="settings-body"><div class="settings-title">Reminders</div><div class="settings-meta">5 active</div></div>${I('i-chev-r')}</div>
+      <div class="settings-row"><div class="list-icon">${I('i-cal-sub')}</div><div class="settings-body"><div class="settings-title">Calendar Sync</div><div class="settings-meta">Apple Calendar · Connected</div></div>${I('i-chev-r')}</div>
     `}
 
     ${isManager ? `
-    <h2 class="title-2">${cfg.ceo ? 'CEO Tools' : 'Manager Tools'}</h2>
-    <div class="settings-row"><div class="list-icon">${I('i-people')}</div><div class="settings-body"><div class="settings-title">Team Management</div><div class="settings-meta">${cfg.ceo ? 'All branches' : '8 direct reports'}</div></div>${I('i-chev-r')}</div>
-    <div class="settings-row"><div class="list-icon">${I('i-bldg')}</div><div class="settings-body"><div class="settings-title">Branch Settings</div><div class="settings-meta">${cfg.ceo ? 'All 3 branches' : 'Hours, holidays, policies'}</div></div>${I('i-chev-r')}</div>
-    ${cfg.ceo ? `<div class="settings-row"><div class="list-icon">${I('i-monitor')}</div><div class="settings-body"><div class="settings-title">Company Settings</div><div class="settings-meta">Policies, billing, integrations</div></div>${I('i-chev-r')}</div>` : ''}
+      <h2 class="title-2">${cfg.ceo ? 'CEO Tools' : 'Manager Tools'}</h2>
+      <div class="settings-row"><div class="list-icon">${I('i-people')}</div><div class="settings-body"><div class="settings-title">Team Management</div><div class="settings-meta">${cfg.ceo ? 'All branches' : '8 direct reports'}</div></div>${I('i-chev-r')}</div>
+      <div class="settings-row"><div class="list-icon">${I('i-bldg')}</div><div class="settings-body"><div class="settings-title">Branch Settings</div><div class="settings-meta">${cfg.ceo ? 'All 3 branches' : 'Hours, holidays, policies'}</div></div>${I('i-chev-r')}</div>
+      ${cfg.ceo ? `<div class="settings-row"><div class="list-icon">${I('i-monitor')}</div><div class="settings-body"><div class="settings-title">Company Settings</div><div class="settings-meta">Policies, billing, integrations</div></div>${I('i-chev-r')}</div>` : ''}
     ` : ''}
 
     <h2 class="title-2">Account</h2>
