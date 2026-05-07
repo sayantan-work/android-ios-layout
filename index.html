@@ -372,6 +372,24 @@ body{
 .signout{display:flex;align-items:center;justify-content:center;gap:8px;padding:11px;margin:12px 0 6px;border-radius:8px;border:1px solid rgba(229,82,79,0.25);color:#fca5a5;font-size:12px;font-weight:600;cursor:pointer}
 .signout svg{width:14px;height:14px}
 
+/* punch status pill (Home for HRMS) */
+.punch-status{display:flex;align-items:center;gap:8px;padding:9px 14px;background:rgba(16,185,129,0.10);border:1px solid rgba(16,185,129,0.30);border-radius:var(--r-pill);font-size:11.5px;color:#34d399;cursor:pointer;margin:8px 0 14px;font-weight:500}
+.punch-status .dot{width:6px;height:6px;border-radius:50%;background:#34d399;box-shadow:0 0 8px #34d399;flex:0 0 auto}
+.punch-status b{color:#fff;font-weight:600}
+.punch-status .chev{margin-left:auto;opacity:0.7;font-size:14px;line-height:1}
+
+/* status list (used in Punch tab) */
+.status-list .list-row{padding:8px 0}
+
+/* Location preview */
+.loc-preview{padding:0;overflow:hidden}
+.loc-map{height:110px;background:linear-gradient(135deg,#2c3e50,#4a5d6f);position:relative;display:flex;align-items:center;justify-content:center;font-size:11px;color:rgba(255,255,255,0.5)}
+.loc-map .loc-tag{position:absolute;top:8px;left:10px;font-size:10px;color:rgba(255,255,255,0.7)}
+.loc-map .loc-walker{font-size:28px}
+.loc-rows{padding:10px 12px}
+.loc-row{font-size:11px;line-height:1.6}
+.loc-row.muted{color:var(--muted)}
+
 /* fab */
 .fab{position:absolute;bottom:96px;right:18px;width:48px;height:48px;border-radius:50%;background:var(--primary);display:flex;align-items:center;justify-content:center;box-shadow:0 0 30px rgba(229,206,43,0.6),0 4px 12px rgba(0,0,0,0.3);z-index:15;cursor:pointer}
 .fab svg{width:20px;height:20px;color:var(--primary-fg)}
@@ -440,12 +458,12 @@ body{
 <div class="page">
   <div class="page-h">
     <h1>EasyDo 365 — iOS Skeleton</h1>
-    <p>Pick a persona, click any tab in the bottom Tab Bar, or tap the avatar in the Nav Bar to open Me. Tab Bar = <b>Home · Workspace · Chat</b> for everyone. Persona variations live as cards on Home and entries inside Me.</p>
+    <p>Pick a persona, then click any tab in the bottom Tab Bar to switch. HRMS users get <b>5 tabs: Home · Workspace · Punch · Chat · Me</b>. App Users (productivity-only) get <b>4 tabs: Home · Workspace · Chat · Me</b> (no Punch).</p>
     <div class="tag-row">
-      <span class="tag brand">3 tabs</span>
+      <span class="tag brand">5 tabs (HRMS)</span>
+      <span class="tag brand">4 tabs (Productivity)</span>
+      <span class="tag">Punch standalone</span>
       <span class="tag">Glassmorphism</span>
-      <span class="tag">Persistent Nav Bar</span>
-      <span class="tag">Avatar → Me</span>
       <span class="tag">Tasks + Meet = Workspace</span>
     </div>
   </div>
@@ -466,22 +484,28 @@ body{
 const I = (id) => `<svg><use href="#${id}"/></svg>`;
 
 /* ─── PERSONAS ─── */
+const TAB_HOME      = {id:'home',     label:'Home',     icon:'i-home'};
+const TAB_WORKSPACE = {id:'workspace',label:'Workspace',icon:'i-workspace'};
+const TAB_PUNCH     = {id:'punch',    label:'Punch',    icon:'i-punch'};
+const TAB_CHAT      = {id:'chat',     label:'Chat',     icon:'i-chat'};
+const TAB_ME        = {id:'me',       label:'Me',       icon:'i-me'};
+
 const personas = {
   A: { label:'App User', sub:'Productivity-only · free · no employer', modules:['prod'], default:'home',
-    tabs:[ {id:'home',label:'Home',icon:'i-home'}, {id:'workspace',label:'Workspace',icon:'i-workspace'}, {id:'chat',label:'Chat',icon:'i-chat'} ],
-    header:{ type:'brand', logo:'E', name:'EasyDo 365', avatarInit:'JS', avatarClass:'brand' },
+    tabs:[ TAB_HOME, TAB_WORKSPACE, TAB_CHAT, TAB_ME ],
+    header:{ type:'brand', logo:'E', name:'EasyDo 365' },
     profile:{ name:'Jordan Smith', role:'App User · Member since 2024', initials:'JS', verified:true } },
-  B: { label:'HRMS Regular Employee / L3', sub:'Employee user · sees only themselves · branch read-only', modules:['prod','hrms'], default:'home',
-    tabs:[ {id:'home',label:'Home',icon:'i-home'}, {id:'workspace',label:'Workspace',icon:'i-workspace'}, {id:'chat',label:'Chat',icon:'i-chat'} ],
-    header:{ type:'company', logo:'L', name:'Liberty Infospace', branch:{label:'Head Office',readonly:true}, avatarInit:'SG' },
+  B: { label:'HRMS Regular Employee / L3', sub:'Employee user · sees only themselves · branch read-only', modules:['prod','hrms'], default:'punch',
+    tabs:[ TAB_HOME, TAB_WORKSPACE, TAB_PUNCH, TAB_CHAT, TAB_ME ],
+    header:{ type:'company', logo:'L', name:'Liberty Infospace', branch:{label:'Head Office',readonly:true} },
     profile:{ name:'Sayantan Ghosh', role:'JUNIOR AIML · Head Office', initials:'SG', verified:true, completion:80, hrms:true } },
   D: { label:'HRMS L2 — Branch Manager', sub:'Manages a branch · branch chip interactive · can approve', modules:['prod','hrms','manage-branch'], default:'home',
-    tabs:[ {id:'home',label:'Home',icon:'i-home'}, {id:'workspace',label:'Workspace',icon:'i-workspace'}, {id:'chat',label:'Chat',icon:'i-chat'} ],
-    header:{ type:'company', logo:'L', name:'Liberty Infospace', branch:{label:'Head Office',readonly:false}, avatarInit:'SG' },
+    tabs:[ TAB_HOME, TAB_WORKSPACE, TAB_PUNCH, TAB_CHAT, TAB_ME ],
+    header:{ type:'company', logo:'L', name:'Liberty Infospace', branch:{label:'Head Office',readonly:false} },
     profile:{ name:'Sayantan Ghosh', role:'L2 · Branch Manager · Head Office', initials:'SG', verified:true, manager:true, hrms:true } },
   E: { label:'HRMS L1 — CEO / Top Mgmt', sub:'Company-wide oversight · default scope All Branches', modules:['prod','hrms','manage-company'], default:'home',
-    tabs:[ {id:'home',label:'Home',icon:'i-home'}, {id:'workspace',label:'Workspace',icon:'i-workspace'}, {id:'chat',label:'Chat',icon:'i-chat'} ],
-    header:{ type:'company', logo:'L', name:'Liberty Infospace', branch:{label:'All Branches',readonly:false}, avatarInit:'SG' },
+    tabs:[ TAB_HOME, TAB_WORKSPACE, TAB_PUNCH, TAB_CHAT, TAB_ME ],
+    header:{ type:'company', logo:'L', name:'Liberty Infospace', branch:{label:'All Branches',readonly:false} },
     profile:{ name:'Sayantan Ghosh', role:'L1 · CEO · Liberty Infospace', initials:'SG', verified:true, ceo:true, hrms:true } },
 };
 
@@ -643,7 +667,15 @@ const manageOfficeCard = (label, count) => `
     ${I('i-chev-r')}
   </div>`;
 
-/* ─── HOME (per persona) ─── */
+/* Compact punch status pill — shown on HRMS Home, taps to Punch tab */
+const punchStatusPill = () => `
+  <div class="punch-status" data-action="goto-punch">
+    <span class="dot"></span>
+    Punched in · <b>7h 36m</b> worked · 9h goal
+    <span class="chev">›</span>
+  </div>`;
+
+/* ─── HOME (per persona) — Punch is now its own tab, so Home shows the launcher ─── */
 const homeFor = (p) => {
   if (p === 'A') {
     return `
@@ -658,7 +690,7 @@ const homeFor = (p) => {
     return `
       <h1 class="title-1">Good evening</h1>
       <p class="subhead">Sayantan · Thu, 7 May 2026</p>
-      ${punchHero()}
+      ${punchStatusPill()}
       ${iconTray(trayItems.B)}
       ${todayScheduleBlock()}
       ${birthdayBlock()}
@@ -671,7 +703,7 @@ const homeFor = (p) => {
     return `
       <h1 class="title-1">Good evening</h1>
       <p class="subhead">Sayantan · Branch Manager · Thu, 7 May</p>
-      ${punchHero()}
+      ${punchStatusPill()}
       ${branchPulse('Head Office', 7, 18, 10, 1)}
       ${manageOfficeCard('Head Office', 4)}
       ${iconTray(trayItems.D)}
@@ -684,7 +716,7 @@ const homeFor = (p) => {
     return `
       <h1 class="title-1">Good evening</h1>
       <p class="subhead">Sayantan · CEO · Thu, 7 May</p>
-      ${punchHero()}
+      ${punchStatusPill()}
       ${branchPulse('all branches', 7, 23, 15, 1)}
       <div class="glass" style="padding:12px;margin-bottom:10px">
         <div style="font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:0.04em;margin-bottom:6px">Branch Breakdown</div>
@@ -700,6 +732,51 @@ const homeFor = (p) => {
     `;
   }
 };
+
+/* ─── PUNCH (own tab, HRMS users only) ─── */
+const punchScreen = () => `
+  <h1 class="title-1">Today</h1>
+  <p class="subhead">Thursday, 7 May 2026 · IST</p>
+  ${punchHero()}
+  <div class="glass status-list" style="padding:4px 12px;margin-top:8px">
+    <div class="list-row"><div class="list-icon success">${I('i-check-seal')}</div>
+      <div class="list-body"><div class="list-title">Present today</div></div></div>
+    <div class="list-row"><div class="list-icon info">${I('i-pin')}</div>
+      <div class="list-body"><div class="list-title">Verified location</div></div></div>
+    <div class="list-row"><div class="list-icon warn">${I('i-clock')}</div>
+      <div class="list-body"><div class="list-title">Flexible hours</div><div class="list-meta">9h target</div></div></div>
+    <div class="list-row"><div class="list-icon danger">${I('i-no-overtime')}</div>
+      <div class="list-body"><div class="list-title">Overtime not allowed</div></div></div>
+  </div>
+
+  <div class="section-head"><h2 class="title-2">📍 Today's Location Timeline</h2><span class="view-all">View Full ›</span></div>
+  <div class="glass loc-preview">
+    <div class="loc-map">
+      <span class="loc-tag">📍 Head Office, Hazra Centre</span>
+      <span class="loc-walker">🚶</span>
+    </div>
+    <div class="loc-rows">
+      <div class="loc-row">• Punched in at Head Office, 09:30 AM</div>
+      <div class="loc-row muted">• 2 location pings since</div>
+    </div>
+  </div>
+
+  <div class="section-head"><h2 class="title-2">This Week</h2><span class="view-all">View All ›</span></div>
+  <div class="glass" style="padding:8px 12px">
+    <div class="row-between" style="padding:6px 0;font-size:12px;border-bottom:1px solid var(--border)">
+      <span>Mon, 5 May</span><span><b style="color:var(--success)">Present</b> · 09:25 → 18:42</span>
+    </div>
+    <div class="row-between" style="padding:6px 0;font-size:12px;border-bottom:1px solid var(--border)">
+      <span>Tue, 6 May</span><span><b style="color:var(--success)">Present</b> · 09:18 → 19:01</span>
+    </div>
+    <div class="row-between" style="padding:6px 0;font-size:12px;border-bottom:1px solid var(--border)">
+      <span>Wed, 7 May</span><span><b style="color:var(--success)">Present</b> · 09:30 → 18:50</span>
+    </div>
+    <div class="row-between" style="padding:6px 0;font-size:12px">
+      <span>Today</span><span><b style="color:var(--primary)">Active</b> · 09:30 → ongoing</span>
+    </div>
+  </div>
+`;
 
 /* ─── WORKSPACE — universal ─── */
 const workspace = () => `
@@ -945,11 +1022,12 @@ const officeScreen = (p) => {
 let state = { persona:'A', tab:'home', deep:null }; // deep: 'me' | 'office' | null
 
 function getBodyHTML() {
-  if (state.deep === 'me') return meScreen(state.persona);
   if (state.deep === 'office') return officeScreen(state.persona);
   if (state.tab === 'home') return homeFor(state.persona);
   if (state.tab === 'workspace') return workspace();
+  if (state.tab === 'punch') return punchScreen();
   if (state.tab === 'chat') return chat();
+  if (state.tab === 'me') return meScreen(state.persona);
   return '<div style="padding:40px;text-align:center;color:var(--muted)">—</div>';
 }
 
@@ -958,7 +1036,7 @@ function renderHeader() {
   const h = p.header;
   const hdr = document.getElementById('hdr');
   if (state.deep) {
-    const title = state.deep === 'me' ? 'Me' : (state.persona === 'E' ? 'All Branches Office' : 'Office');
+    const title = state.persona === 'E' ? 'All Branches Office' : 'Office';
     hdr.innerHTML = `
       <div class="hdr-back" data-action="back">${I('i-chev-l')}</div>
       <div class="hdr-title">${title}</div>
@@ -971,7 +1049,6 @@ function renderHeader() {
       <div class="hdr-name">${h.name}</div>
       <div class="hdr-spacer"></div>
       <div class="hdr-bell">${I('i-bell')}</div>
-      <div class="hdr-avatar ${h.avatarClass||''}" data-action="open-me">${h.avatarInit}</div>
     `;
   } else {
     hdr.innerHTML = `
@@ -980,14 +1057,12 @@ function renderHeader() {
       <div class="hdr-branch ${h.branch.readonly?'readonly':''}">${I('i-bldg')}<span class="b-label">${h.branch.label}</span><svg class="b-chev"><use href="#i-chev-d"/></svg></div>
       <div class="hdr-spacer"></div>
       <div class="hdr-bell">${I('i-bell')}</div>
-      <div class="hdr-avatar" data-action="open-me">${h.avatarInit}</div>
     `;
   }
   hdr.querySelectorAll('[data-action]').forEach(el => {
     el.addEventListener('click', () => {
       const a = el.dataset.action;
       if (a === 'back') state.deep = null;
-      if (a === 'open-me') state.deep = 'me';
       renderAll();
       document.getElementById('body').scrollTo(0,0);
     });
@@ -1013,10 +1088,17 @@ function renderTabs() {
 function renderBody() {
   const body = document.getElementById('body');
   body.innerHTML = getBodyHTML();
-  // wire deep-screen actions inside the body
   body.querySelectorAll('[data-action="open-office"]').forEach(el => {
     el.addEventListener('click', () => {
       state.deep = 'office';
+      renderAll();
+      document.getElementById('body').scrollTo(0,0);
+    });
+  });
+  body.querySelectorAll('[data-action="goto-punch"]').forEach(el => {
+    el.addEventListener('click', () => {
+      state.tab = 'punch';
+      state.deep = null;
       renderAll();
       document.getElementById('body').scrollTo(0,0);
     });
@@ -1046,46 +1128,47 @@ function renderInfo() {
   const p = personas[state.persona];
   const info = document.getElementById('infoPanel');
   const moduleLabels = {prod:'Productivity', hrms:'HRMS', 'manage-branch':'Branch Mgmt', 'manage-company':'Company Mgmt'};
-  const currentLabel = state.deep ? (state.deep === 'me' ? 'Me (deep)' : 'Office (deep)') : (p.tabs.find(t=>t.id===state.tab)?.label || '—');
+  const currentLabel = state.deep ? 'Office (deep)' : (p.tabs.find(t=>t.id===state.tab)?.label || '—');
+  const isHRMS = p.modules.includes('hrms');
   info.innerHTML = `
     <section>
       <h3>Currently viewing</h3>
       <div class="info-row"><span>Persona</span><b>${p.label}</b></div>
       <div class="info-row"><span>Screen</span><b>${currentLabel}</b></div>
       <div class="info-row"><span>Default tab</span><b>${p.tabs.find(t=>t.id===p.default)?.label}</b></div>
+      <div class="info-row"><span>Tab count</span><b>${p.tabs.length}</b></div>
     </section>
     <section>
-      <h3>Tab Bar (3 tabs, universal)</h3>
-      <div class="info-row"><span>1</span><b>Home</b></div>
-      <div class="info-row"><span>2</span><b>Workspace <span class="muted" style="font-weight:400;font-size:11px">(Tasks · Meets · Notes · Reminders)</span></b></div>
-      <div class="info-row"><span>3</span><b>Chat</b></div>
+      <h3>Tab Bar</h3>
+      ${p.tabs.map((t,i) => `<div class="info-row"><span>${i+1}</span><b>${t.label}${t.id===p.default?' <span class="muted" style="font-weight:400;font-size:10px">(default)</span>':''}</b></div>`).join('')}
+      <p class="note" style="margin-top:8px">${isHRMS ? '5 tabs · Punch is its own dedicated tab' : '4 tabs · No Punch (productivity-only)'}</p>
     </section>
     <section>
       <h3>Nav Bar (top)</h3>
       <p style="font-size:12px;color:var(--muted);line-height:1.5;margin:0">
-        ${p.modules.includes('hrms')
-          ? '<b style="color:var(--fg)">Company switcher</b> + <b style="color:var(--fg)">Branch chip</b> + Bell + <b style="color:var(--fg)">Avatar</b>'
-          : 'EasyDo brand + Bell + <b style="color:var(--fg)">Avatar</b>'}
-        <br><br>Tap the <b style="color:var(--primary)">avatar</b> in the top-right to open Me.
+        ${isHRMS
+          ? '<b style="color:var(--fg)">Company switcher</b> + <b style="color:var(--fg)">Branch chip</b> + Bell. Avatar moved to bottom Tab Bar (Me tab).'
+          : 'EasyDo brand + Bell. No company/branch chip for productivity-only users.'}
       </p>
     </section>
     <section>
       <h3>Module access</h3>
       <p>${p.modules.map(m=>`<span class="module-pill ${m==='prod'?'prod':'hrms'}">${moduleLabels[m]||m}</span>`).join('')}</p>
       <p class="note">${
-        state.persona === 'A' ? 'No company affiliation. No HRMS surfaces visible. Tasks + Meet inside Workspace.' :
-        state.persona === 'B' ? 'Sees their own attendance/payroll only. Punch button + Quick Requests on Home. Tasks + Meet inside Workspace.' :
-        state.persona === 'D' ? 'Manages a single branch. Branch Pulse + Manage Office card on Home. Tap Manage Office to drill into the company control panel.' :
-        'Company-wide oversight. All Branches scope. Branch breakdown on Home. Same Workspace + Chat as everyone.'
+        state.persona === 'A' ? 'No company affiliation. No Punch tab. Tasks + Meet inside Workspace.' :
+        state.persona === 'B' ? 'Sees own attendance/payroll only. Punch tab is the default landing. Status pill on Home shows current punch state.' :
+        state.persona === 'D' ? 'Manages a single branch. Branch Pulse + Manage Office card on Home. Tap Manage Office for the company control panel.' :
+        'Company-wide oversight. All Branches scope. Branch breakdown on Home.'
       }</p>
     </section>
     <section>
       <h3>How to navigate</h3>
       <p style="font-size:12px;color:var(--muted);line-height:1.7;margin:0">
-        • Click any tab in the bottom Tab Bar.<br>
-        • Tap the avatar (top-right of Nav Bar) → opens <b style="color:var(--fg)">Me</b>.<br>
-        ${p.modules.includes('manage-branch') || p.modules.includes('manage-company') ? '• Tap "Manage Office" card on Home → opens <b style="color:var(--fg)">Office</b>.<br>' : ''}
-        • Switch personas above to see how the same app reshapes.
+        • Click any tab in the bottom Tab Bar to switch.<br>
+        ${isHRMS ? '• <b style="color:var(--fg)">Punch</b> tab = standalone punch in/out + status + location + week.<br>• Punch status pill on Home → tap to jump to Punch tab.<br>' : ''}
+        • <b style="color:var(--fg)">Me</b> tab = profile + ${isHRMS ? 'pay summary, requests, salary slips, leaves' : 'productivity tools (Notes, Drive, Reminders)'}.<br>
+        ${p.modules.includes('manage-branch') || p.modules.includes('manage-company') ? '• Tap "Manage Office" card on Home → opens Office sub-screen.<br>' : ''}
+        • Switch personas above to compare.
       </p>
     </section>
   `;
