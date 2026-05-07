@@ -1,0 +1,1017 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>EasyDo 365 — iOS Skeleton</title>
+<style>
+:root{
+  --bg:#0F0F12; --fg:#FAFAFA; --muted:#A6A6AD; --muted-2:#7A7A82;
+  --primary:#E5CE2B; --primary-fg:#6E4F1A;
+  --destructive:#E5524F; --success:#10B981; --info:#3B82F6;
+  --peach:#F0A991; --teal:#288d85; --bronze:#8E6E1A;
+  --border:rgba(255,255,255,0.10); --border-strong:rgba(255,255,255,0.18);
+  --glass:rgba(28,28,32,0.72); --glass-thin:rgba(28,28,32,0.50); --glass-thick:rgba(28,28,32,0.85);
+  --r-md:12px; --r-lg:16px; --r-xl:20px; --r-2xl:24px; --r-pill:999px;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Inter","Helvetica Neue",sans-serif;
+  background:#0a0a0d;color:var(--fg);min-height:100vh;-webkit-font-smoothing:antialiased;
+}
+.page{max-width:1240px;margin:0 auto;padding:32px 24px 64px}
+.page-h h1{font-size:24px;font-weight:600;margin:0 0 6px;letter-spacing:-0.02em}
+.page-h p{color:var(--muted);font-size:13px;line-height:1.5;margin:0 0 6px;max-width:780px}
+.tag-row{display:flex;gap:6px;flex-wrap:wrap;margin-top:12px}
+.tag{padding:5px 10px;border:1px solid var(--border);border-radius:var(--r-pill);font-size:11px;color:var(--muted);background:rgba(255,255,255,0.02)}
+.tag.brand{color:var(--primary);border-color:rgba(229,206,43,0.3)}
+
+.persona-switcher{display:flex;gap:8px;margin:20px 0;padding:6px;background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:14px;flex-wrap:wrap}
+.persona-btn{padding:10px 14px;border:none;background:transparent;color:var(--muted);font-size:13px;font-weight:500;border-radius:10px;cursor:pointer;display:flex;align-items:center;gap:8px;flex:1;min-width:160px;transition:background 0.15s,color 0.15s;font-family:inherit;text-align:left}
+.persona-btn:hover{color:var(--fg);background:rgba(255,255,255,0.04)}
+.persona-btn.active{background:var(--primary);color:var(--primary-fg);box-shadow:0 0 20px rgba(229,206,43,0.3)}
+.persona-btn .pb-tag{display:inline-block;padding:2px 6px;border-radius:4px;font-size:10px;font-weight:700;background:rgba(255,255,255,0.1);letter-spacing:0.04em}
+.persona-btn.active .pb-tag{background:rgba(110,79,26,0.2);color:var(--primary-fg)}
+.persona-btn .pb-name{font-weight:600}
+.persona-btn .pb-sub{font-size:10px;display:block;opacity:0.7;font-weight:400;margin-top:2px}
+
+.stage{display:grid;grid-template-columns:380px 1fr;gap:32px;align-items:start;margin-top:8px}
+@media (max-width:900px){.stage{grid-template-columns:1fr}}
+
+.phone{
+  width:340px;height:736px;border-radius:42px;border:6px solid #1a1a1c;
+  box-shadow:0 20px 50px rgba(0,0,0,0.6),inset 0 0 0 1px rgba(255,255,255,0.04);
+  overflow:hidden;position:relative;margin:0 auto;
+  background:
+    radial-gradient(ellipse at 25% 0%,rgba(229,206,43,0.10) 0%,transparent 45%),
+    radial-gradient(circle at 80% 90%,rgba(240,169,145,0.07) 0%,transparent 45%),
+    radial-gradient(circle at 50% 50%,rgba(229,206,43,0.04) 0%,transparent 70%),
+    linear-gradient(135deg,#1A1812 0%,#2A2410 30%,#1F1A2A 70%,#0F0F12 100%);
+}
+.phone::before{content:"";position:absolute;top:10px;left:50%;transform:translateX(-50%);width:90px;height:24px;background:#000;border-radius:14px;z-index:30}
+
+/* Nav bar */
+.hdr{
+  position:absolute;top:0;left:0;right:0;padding:44px 12px 10px;height:88px;
+  display:flex;align-items:flex-end;gap:6px;
+  background:var(--glass-thin);backdrop-filter:blur(30px) saturate(140%);-webkit-backdrop-filter:blur(30px) saturate(140%);
+  border-bottom:1px solid var(--border);z-index:20;
+}
+.hdr-back{width:32px;height:32px;display:flex;align-items:center;justify-content:center;cursor:pointer;flex:0 0 auto}
+.hdr-back svg{width:18px;height:18px;color:var(--fg)}
+.hdr-title{font-size:15px;font-weight:600;flex:1;text-align:center}
+.hdr-logo{width:28px;height:28px;border-radius:7px;flex:0 0 auto;background:linear-gradient(135deg,#fff 0%,#fff 50%,#dc2626 50%,#dc2626 100%);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:9px;color:#111}
+.hdr-logo.brand{background:radial-gradient(circle at 30% 30%,#E5CE2B,#9c8b1a);color:#0F0F12;font-size:13px}
+.hdr-name{display:flex;align-items:center;gap:3px;font-size:13px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:120px;cursor:pointer}
+.hdr-name svg{width:13px;height:13px;color:var(--primary);flex:0 0 auto}
+.hdr-branch{display:flex;align-items:center;gap:3px;padding:5px 7px;border-radius:var(--r-pill);background:rgba(255,255,255,0.06);border:1px solid var(--border);font-size:10px;color:var(--fg);flex:0 0 auto;max-width:110px;cursor:pointer}
+.hdr-branch svg{width:10px;height:10px;flex:0 0 auto}
+.hdr-branch .b-label{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.hdr-branch .b-chev{width:9px;height:9px;color:var(--primary)}
+.hdr-branch.readonly .b-chev{color:var(--muted-2)}
+.hdr-spacer{flex:1}
+.hdr-bell{position:relative;width:30px;height:30px;display:flex;align-items:center;justify-content:center;flex:0 0 auto;cursor:pointer}
+.hdr-bell svg{width:17px;height:17px;color:var(--fg)}
+.hdr-bell::after{content:"";position:absolute;top:6px;right:6px;width:6px;height:6px;background:var(--destructive);border-radius:50%;border:1.5px solid #1a1a1c}
+.hdr-avatar{width:30px;height:30px;border-radius:50%;flex:0 0 auto;cursor:pointer;border:1.5px solid var(--primary);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;color:#fff;background:linear-gradient(135deg,#288d85,#b9d9b4);transition:transform 0.15s}
+.hdr-avatar:hover{transform:scale(1.08)}
+.hdr-avatar.brand{background:linear-gradient(135deg,#f0a991,#d18e8f)}
+
+/* Body */
+.body{position:absolute;top:88px;bottom:96px;left:0;right:0;overflow-y:auto;padding:14px 16px 24px;scrollbar-width:none}
+.body::-webkit-scrollbar{display:none}
+
+/* Tab bar */
+.tabs{
+  position:absolute;left:14px;right:14px;bottom:14px;height:64px;
+  background:var(--glass);backdrop-filter:blur(28px) saturate(160%);-webkit-backdrop-filter:blur(28px) saturate(160%);
+  border:1px solid var(--border-strong);border-radius:24px;
+  display:flex;align-items:center;justify-content:space-around;padding:0 4px;
+  box-shadow:0 8px 30px rgba(0,0,0,0.4),inset 0 1px 0 rgba(255,255,255,0.08);z-index:20;
+}
+.tab{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;padding:6px 0;position:relative;color:var(--muted);min-width:0;cursor:pointer;background:transparent;border:none;font-family:inherit;transition:transform 0.15s}
+.tab:hover{transform:translateY(-1px)}
+.tab svg{width:24px;height:24px;flex:0 0 auto;position:relative;z-index:2}
+.tab .t-label{font-size:10px;font-weight:500;color:var(--muted);position:relative;z-index:2}
+.tab.active .t-label{color:var(--fg);font-weight:600}
+.tab.active{color:var(--primary-fg)}
+.tab.active::before{content:"";position:absolute;top:2px;left:50%;transform:translateX(-50%);width:46px;height:46px;border-radius:50%;background:radial-gradient(circle,rgba(229,206,43,0.95) 0%,rgba(229,206,43,0.6) 50%,rgba(229,206,43,0) 100%);z-index:1;filter:blur(2px)}
+.tab.active svg{color:#3a2c08}
+
+/* glass primitives */
+.glass{background:var(--glass);backdrop-filter:blur(20px) saturate(140%);-webkit-backdrop-filter:blur(20px) saturate(140%);border:1px solid var(--border);border-radius:var(--r-2xl);box-shadow:0 4px 16px rgba(0,0,0,0.30),inset 0 1px 0 rgba(255,255,255,0.06);padding:14px}
+.glass-thin{background:var(--glass-thin);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border:1px solid var(--border);border-radius:var(--r-lg)}
+
+.title-1{font-size:22px;font-weight:600;letter-spacing:-0.02em;margin:0 0 4px}
+.title-2{font-size:15px;font-weight:600;margin:14px 0 8px;letter-spacing:-0.01em}
+.subhead{font-size:12px;color:var(--muted);margin:0 0 12px;line-height:1.4}
+.row-between{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.muted{color:var(--muted)}
+
+.section-head{display:flex;align-items:center;justify-content:space-between;margin:14px 0 6px}
+.section-head .title-2{margin:0}
+.view-all{font-size:11px;color:var(--primary);font-weight:600;cursor:pointer}
+
+/* Hero punch button (Home for HRMS) */
+.punch-section{margin:6px 0 14px}
+.punch-hero{display:flex;flex-direction:column;align-items:center;gap:6px;margin:8px 0 12px;position:relative}
+.punch-orb{width:130px;height:130px;border-radius:50%;background:radial-gradient(circle at 30% 25%,#3a2f1f 0%,#1a1812 70%);display:flex;align-items:center;justify-content:center;position:relative;box-shadow:0 0 60px rgba(229,206,43,0.45),0 0 100px rgba(229,206,43,0.30),inset 0 1px 0 rgba(255,255,255,0.10);cursor:pointer}
+.punch-orb::before{content:"";position:absolute;inset:-3px;border-radius:50%;background:conic-gradient(from 0deg,#E5CE2B 0%,#fbbf24 25%,#E5CE2B 50%,#9c8b1a 75%,#E5CE2B 100%);z-index:-1;filter:blur(1px)}
+.punch-orb svg{width:44px;height:44px;color:var(--primary-fg)}
+.punch-label{font-size:13px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;color:#fff;margin-top:2px}
+.punch-sub{font-size:10px;color:var(--muted)}
+
+.time-card{padding:14px;text-align:center;margin-bottom:8px}
+.time-big{font-size:32px;font-weight:600;font-feature-settings:"tnum";letter-spacing:-0.02em;line-height:1}
+.time-big small{font-size:14px;font-weight:500;margin-left:4px;color:var(--muted)}
+.time-meta{font-size:11px;color:var(--muted);margin-top:4px}
+.time-status{display:inline-flex;align-items:center;gap:6px;margin-top:8px;padding:4px 10px;background:rgba(16,185,129,0.12);border:1px solid rgba(16,185,129,0.25);border-radius:var(--r-pill);font-size:10px;color:#34d399}
+.time-status .dot{width:5px;height:5px;border-radius:50%;background:#34d399;box-shadow:0 0 8px #34d399}
+
+.elapsed{margin:6px 0 12px}
+.elapsed-track{height:6px;background:rgba(255,255,255,0.06);border-radius:3px;overflow:hidden;position:relative}
+.elapsed-fill{height:100%;background:linear-gradient(90deg,#D6BC2C,#EDDD3A);border-radius:3px;position:relative}
+.elapsed-fill::after{content:"";position:absolute;right:-6px;top:50%;transform:translateY(-50%);width:12px;height:12px;border-radius:50%;background:#fff;box-shadow:0 0 4px rgba(0,0,0,0.4)}
+.elapsed-labels{display:flex;justify-content:space-between;margin-top:6px;font-size:10px;color:var(--muted)}
+.elapsed-labels b{color:var(--fg)}
+
+.punch-chips{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin:8px 0 12px}
+.punch-chip{padding:8px;border-radius:var(--r-md);background:var(--glass-thin);border:1px solid var(--border);text-align:center}
+.punch-chip .pc-row{display:flex;align-items:center;gap:4px;justify-content:center;font-size:9px;color:var(--muted);margin-bottom:2px}
+.punch-chip .pc-row svg{width:10px;height:10px}
+.punch-chip .pc-val{font-size:13px;font-weight:600;font-feature-settings:"tnum"}
+.punch-chip .pc-val.empty{color:var(--muted-2)}
+
+/* Quick request row (Home for HRMS) */
+.qr-row{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin:6px 0 12px}
+.qr-tile{padding:10px 4px;border-radius:var(--r-md);background:var(--glass-thin);border:1px solid var(--border);text-align:center;cursor:pointer;transition:transform 0.15s;position:relative}
+.qr-tile:hover{transform:translateY(-1px)}
+.qr-tile svg{width:18px;height:18px;color:var(--primary);margin-bottom:4px}
+.qr-tile .qr-label{font-size:9px;font-weight:500;line-height:1.2}
+
+/* Manage office card */
+.manage-card{padding:14px;display:flex;align-items:center;gap:12px;cursor:pointer;background:linear-gradient(135deg,rgba(229,206,43,0.10),rgba(240,169,145,0.06));border:1px solid rgba(229,206,43,0.25)}
+.manage-card-icon{width:40px;height:40px;border-radius:50%;background:var(--primary);display:flex;align-items:center;justify-content:center;flex:0 0 auto;box-shadow:0 0 20px rgba(229,206,43,0.4)}
+.manage-card-icon svg{width:18px;height:18px;color:var(--primary-fg)}
+.manage-card-text{flex:1;min-width:0}
+.manage-card-title{font-size:13px;font-weight:600}
+.manage-card-sub{font-size:11px;color:var(--muted);margin-top:1px}
+.manage-card-meta{display:flex;gap:8px;margin-top:4px;font-size:10px}
+.manage-card-meta b{color:var(--primary)}
+
+/* Branch pulse hero */
+.who-hero{padding:12px 14px;margin-bottom:10px;position:relative;overflow:hidden}
+.who-hero::before{content:"";position:absolute;inset:-30px;background:radial-gradient(circle at 80% 20%,rgba(229,206,43,0.14),transparent 60%);z-index:0}
+.who-hero > *{position:relative;z-index:1}
+.who-row{display:flex;align-items:flex-end;gap:14px;justify-content:space-between}
+.who-num{font-size:30px;font-weight:700;letter-spacing:-0.02em;line-height:1}
+.who-num small{color:var(--muted);font-size:15px;font-weight:500;margin-left:2px}
+.who-meta{font-size:10px;color:var(--muted);margin-top:2px}
+.who-icon{font-size:24px}
+.who-bar{display:flex;height:7px;border-radius:4px;overflow:hidden;margin-top:10px;background:rgba(255,255,255,0.05)}
+.who-bar .seg-p{background:var(--success)}
+.who-bar .seg-a{background:var(--destructive)}
+.who-bar .seg-l{background:var(--info)}
+.who-legend{display:flex;gap:10px;font-size:9px;color:var(--muted);margin-top:6px}
+.who-legend .dot{width:5px;height:5px;border-radius:50%;display:inline-block;margin-right:4px;vertical-align:middle}
+
+/* Schedule */
+.sched-row{display:grid;grid-template-columns:42px 1fr;gap:6px;margin-bottom:6px}
+.sched-time{font-size:9px;color:var(--muted);padding-top:12px;text-align:right;font-feature-settings:"tnum";line-height:1.2}
+.sched-card{padding:10px 12px;display:flex;align-items:center;gap:10px;position:relative;overflow:hidden;border-radius:var(--r-lg)}
+.sched-card.glow-peach::before,.sched-card.glow-yellow::before,.sched-card.glow-teal::before,.sched-card.glow-bronze::before,.sched-card.glow-rose::before{content:"";position:absolute;left:-30px;top:50%;width:80px;height:80px;border-radius:50%;filter:blur(30px);opacity:0.55;transform:translateY(-50%);z-index:0}
+.sched-card.glow-peach::before{background:var(--peach)}
+.sched-card.glow-yellow::before{background:var(--primary)}
+.sched-card.glow-teal::before{background:var(--teal)}
+.sched-card.glow-bronze::before{background:var(--bronze)}
+.sched-card.glow-rose::before{background:var(--destructive)}
+.sched-icon{width:26px;height:26px;border-radius:7px;display:flex;align-items:center;justify-content:center;flex:0 0 auto;position:relative;z-index:1;background:rgba(255,255,255,0.06)}
+.sched-icon svg{width:13px;height:13px}
+.sched-body{position:relative;z-index:1;flex:1;min-width:0}
+.sched-title{font-size:12px;font-weight:600;line-height:1.3}
+.sched-meta{font-size:10px;color:var(--muted);margin-top:1px}
+
+/* Pills / chips */
+.chip{display:inline-flex;align-items:center;gap:4px;padding:5px 10px;border-radius:var(--r-pill);background:rgba(255,255,255,0.04);border:1px solid var(--border);font-size:11px;color:var(--fg);white-space:nowrap;cursor:pointer}
+.chip.active{background:var(--primary);color:var(--primary-fg);border-color:transparent;font-weight:600}
+.chip-row{display:flex;gap:6px;margin:6px 0 12px;overflow-x:auto;padding-bottom:4px;scrollbar-width:none}
+.chip-row::-webkit-scrollbar{display:none}
+.pill{display:inline-flex;align-items:center;gap:4px;padding:3px 8px;border-radius:var(--r-pill);font-size:9px;font-weight:700;letter-spacing:0.04em;text-transform:uppercase}
+.pill.success{background:rgba(16,185,129,0.18);color:#34d399}
+.pill.warn{background:rgba(229,206,43,0.18);color:#facc15}
+.pill.danger{background:rgba(229,82,79,0.18);color:#fca5a5}
+.pill.info{background:rgba(59,130,246,0.18);color:#93c5fd}
+
+.search{display:flex;align-items:center;gap:8px;padding:9px 14px;background:var(--glass-thin);border:1px solid var(--border);border-radius:var(--r-pill);font-size:12px;color:var(--muted);margin-bottom:10px}
+.search svg{width:13px;height:13px;color:var(--muted)}
+
+/* stat banner */
+.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin:6px 0 12px}
+.stat-tile{padding:10px 6px;border-radius:var(--r-md);background:var(--glass-thin);border:1px solid var(--border);text-align:center;position:relative;overflow:hidden}
+.stat-tile::before{content:"";position:absolute;inset:auto -10px -20px -10px;height:50px;filter:blur(20px);opacity:0.45;border-radius:50%;z-index:0}
+.stat-tile.g-yellow::before{background:var(--primary)}
+.stat-tile.g-peach::before{background:var(--peach)}
+.stat-tile.g-teal::before{background:var(--teal)}
+.stat-tile.g-bronze::before{background:var(--bronze)}
+.stat-tile.g-green::before{background:var(--success)}
+.stat-tile.g-red::before{background:var(--destructive)}
+.stat-tile.g-blue::before{background:var(--info)}
+.stat-tile .num{font-size:18px;font-weight:700;line-height:1;position:relative;z-index:1}
+.stat-tile .lbl{font-size:8.5px;color:var(--muted);text-transform:uppercase;margin-top:4px;letter-spacing:0.04em;position:relative;z-index:1;line-height:1.2}
+
+/* List rows */
+.list-row{display:flex;align-items:center;gap:10px;padding:10px 8px;border-bottom:1px solid var(--border)}
+.list-row:last-child{border-bottom:none}
+.list-avatar{width:34px;height:34px;border-radius:50%;flex:0 0 auto;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;color:#fff}
+.list-avatar.gradient-ai{background:conic-gradient(from 0deg,#f43f5e,#a855f7,#6366f1,#f43f5e)}
+.list-avatar.av1{background:linear-gradient(135deg,#288d85,#b9d9b4)}
+.list-avatar.av2{background:linear-gradient(135deg,#d18e8f,#b05574)}
+.list-avatar.av3{background:linear-gradient(135deg,#f0a991,#d18e8f)}
+.list-avatar.av4{background:linear-gradient(135deg,#b9d9b4,#288d85)}
+.list-avatar.av5{background:linear-gradient(135deg,#dc2626,#fbbf24)}
+.list-icon{width:32px;height:32px;border-radius:8px;flex:0 0 auto;display:flex;align-items:center;justify-content:center;background:rgba(229,206,43,0.1);color:var(--primary)}
+.list-icon svg{width:15px;height:15px}
+.list-icon.success{background:rgba(16,185,129,0.15);color:var(--success)}
+.list-icon.info{background:rgba(59,130,246,0.15);color:var(--info)}
+.list-icon.warn{background:rgba(229,206,43,0.15);color:var(--primary)}
+.list-icon.danger{background:rgba(229,82,79,0.15);color:var(--destructive)}
+.list-body{flex:1;min-width:0}
+.list-title{font-size:12px;font-weight:600;line-height:1.3;display:flex;align-items:center;gap:6px}
+.list-meta{font-size:10px;color:var(--muted);margin-top:2px;line-height:1.3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.list-trail{display:flex;flex-direction:column;align-items:flex-end;gap:4px;flex:0 0 auto}
+.list-time{font-size:9px;color:var(--muted)}
+.unread{background:var(--primary);color:var(--primary-fg);font-size:9px;font-weight:700;min-width:18px;height:18px;border-radius:9px;display:flex;align-items:center;justify-content:center;padding:0 5px}
+.chev-r{color:var(--muted-2);width:13px;height:13px;flex:0 0 auto}
+
+.task-tag{font-size:9px;font-weight:600;padding:2px 5px;border-radius:4px;background:rgba(168,85,247,0.18);color:#c4b5fd;margin-left:4px}
+
+/* Workspace specific */
+.ws-cta{padding:14px;margin:6px 0 14px;background:linear-gradient(135deg,rgba(229,206,43,0.20),rgba(240,169,145,0.10));border:1px solid rgba(229,206,43,0.3);border-radius:var(--r-lg);display:flex;align-items:center;gap:12px;cursor:pointer}
+.ws-cta-icon{width:38px;height:38px;border-radius:50%;background:var(--primary);display:flex;align-items:center;justify-content:center;flex:0 0 auto;box-shadow:0 0 20px rgba(229,206,43,0.4)}
+.ws-cta-icon svg{width:17px;height:17px;color:var(--primary-fg)}
+.ws-cta-text .mc-title{font-size:13px;font-weight:600}
+.ws-cta-text .mc-sub{font-size:11px;color:var(--muted);margin-top:1px}
+
+.ws-item{display:grid;grid-template-columns:auto 1fr auto;gap:10px;align-items:center;padding:10px 0;border-bottom:1px solid var(--border)}
+.ws-item:last-child{border-bottom:none}
+.ws-time{width:40px;flex:0 0 auto;text-align:center;font-size:9px;color:var(--muted);font-feature-settings:"tnum";line-height:1.2}
+.ws-time .h{font-size:13px;font-weight:600;color:var(--fg);display:block;line-height:1}
+.ws-icon{width:30px;height:30px;border-radius:8px;display:flex;align-items:center;justify-content:center;flex:0 0 auto}
+.ws-icon svg{width:14px;height:14px}
+.ws-icon.task{background:rgba(229,206,43,0.15);color:var(--primary)}
+.ws-icon.meet{background:rgba(40,141,133,0.18);color:#5fb3a9}
+.ws-icon.reminder{background:rgba(240,169,145,0.18);color:var(--peach)}
+.ws-icon.note{background:rgba(168,85,247,0.18);color:#c4b5fd}
+.ws-info{min-width:0}
+.ws-title{font-size:12px;font-weight:600;line-height:1.3}
+.ws-meta{font-size:10px;color:var(--muted);margin-top:1px}
+.ws-action{padding:5px 9px;border-radius:6px;background:var(--primary);color:var(--primary-fg);font-size:10px;font-weight:700;cursor:pointer;flex:0 0 auto}
+.ws-check{width:18px;height:18px;border-radius:50%;border:1.5px solid var(--muted-2);flex:0 0 auto;cursor:pointer}
+.ws-check.done{background:var(--success);border-color:var(--success);position:relative}
+.ws-check.done::after{content:"";position:absolute;left:5px;top:2px;width:4px;height:8px;border:solid #fff;border-width:0 2px 2px 0;transform:rotate(45deg)}
+
+/* Announcement carousel */
+.announce-card{padding:11px;display:grid;grid-template-columns:1fr 60px;gap:10px;align-items:center}
+.announce-card .ac-meta{font-size:9px;color:var(--muted);margin-bottom:3px}
+.announce-card .ac-title{font-size:13px;font-weight:600}
+.announce-card .ac-body{font-size:10px;color:var(--muted);margin-top:1px}
+.announce-thumb{width:60px;height:60px;border-radius:8px;background:linear-gradient(135deg,#a855f7,#6366f1);display:flex;align-items:center;justify-content:center;font-size:16px;color:#fff;font-weight:700}
+.dots{display:flex;gap:4px;justify-content:center;margin-top:6px}
+.dots span{width:5px;height:5px;border-radius:50%;background:var(--muted-2)}
+.dots span.on{background:var(--primary);width:14px;border-radius:3px}
+
+/* Holidays */
+.holiday-row{display:flex;align-items:center;gap:10px;padding:8px 4px;border-bottom:1px solid var(--border)}
+.holiday-row:last-child{border-bottom:none}
+.date-pill{width:36px;flex:0 0 auto;text-align:center;border:1px solid var(--border);border-radius:8px;padding:4px 0;background:rgba(255,255,255,0.02)}
+.date-pill .d{font-size:13px;font-weight:700;line-height:1}
+.date-pill .m{font-size:8px;text-transform:uppercase;color:var(--muted);margin-top:2px;letter-spacing:0.05em}
+.holiday-row .h-name{font-size:12px;font-weight:500}
+.holiday-row .h-day{font-size:10px;color:var(--muted)}
+
+/* EOTM */
+.eotm{padding:10px;display:flex;align-items:center;gap:10px;position:relative;overflow:hidden}
+.eotm::before{content:"";position:absolute;inset:-20px;background:radial-gradient(circle at 30% 50%,rgba(229,206,43,0.18),transparent 60%);z-index:0}
+.eotm > *{position:relative;z-index:1}
+.eotm-avatar{width:42px;height:42px;border-radius:50%;background:linear-gradient(135deg,#dc2626,#fbbf24);flex:0 0 auto;border:2px solid rgba(229,206,43,0.5)}
+.eotm-name{font-size:12px;font-weight:600}
+.eotm-meta{font-size:10px;color:var(--muted);margin:1px 0}
+.eotm-score{font-size:10px;color:var(--primary);font-weight:600;margin-top:2px}
+
+/* Office sub-screen — attendance grid + action grid + approvals */
+.att-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-bottom:14px}
+.att-tile{padding:10px 4px;border-radius:var(--r-md);background:var(--glass-thin);border:1px solid var(--border);text-align:center}
+.att-tile .num{font-size:15px;font-weight:700}
+.att-tile .lbl{font-size:8px;color:var(--muted);text-transform:uppercase;letter-spacing:0.04em;margin-top:2px}
+
+.action-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:14px}
+.action-tile{padding:12px 4px;border-radius:var(--r-md);background:var(--glass-thin);border:1px solid var(--border);text-align:center;position:relative;cursor:pointer;transition:transform 0.15s}
+.action-tile:hover{transform:translateY(-1px)}
+.action-tile svg{width:20px;height:20px;color:var(--primary);margin-bottom:6px}
+.action-tile .at-label{font-size:9.5px;color:var(--fg);line-height:1.2;font-weight:500}
+.action-tile .badge{position:absolute;top:4px;right:4px;background:var(--destructive);color:#fff;font-size:8px;font-weight:700;border-radius:8px;padding:1px 5px;min-width:14px;text-align:center;line-height:1.4}
+
+.approval{padding:12px;margin-bottom:8px}
+.approval-row{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.approval-name{font-size:12px;font-weight:600}
+.approval-meta{font-size:10px;color:var(--muted);margin-top:1px}
+.approval-type{font-size:11px;color:var(--primary);font-weight:600;margin:6px 0 8px}
+.approval-actions{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.btn{padding:7px 12px;border-radius:8px;font-size:11px;font-weight:600;text-align:center;border:1px solid var(--border);background:rgba(255,255,255,0.03);cursor:pointer}
+.btn.primary{background:var(--primary);color:var(--primary-fg);border-color:transparent;box-shadow:0 0 12px rgba(229,206,43,0.4)}
+.btn.danger{color:#fca5a5;border-color:rgba(229,82,79,0.3)}
+
+/* Profile (Me) */
+.profile{padding:14px;display:flex;align-items:center;gap:12px;margin-bottom:10px;position:relative;overflow:hidden}
+.profile::before{content:"";position:absolute;inset:-30px -30px auto auto;width:160px;height:160px;border-radius:50%;background:radial-gradient(circle,rgba(229,206,43,0.16),transparent 65%);z-index:0}
+.profile > *{position:relative;z-index:1}
+.profile-avatar{width:54px;height:54px;border-radius:50%;background:linear-gradient(135deg,#288d85,#b9d9b4);border:2px solid var(--primary);flex:0 0 auto;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:600;color:#fff}
+.profile-info{flex:1;min-width:0}
+.profile-name{font-size:15px;font-weight:600}
+.profile-role{font-size:11px;color:var(--muted);margin-top:2px}
+.profile-pills{display:flex;gap:5px;margin-top:6px;flex-wrap:wrap}
+
+.pay-card{padding:14px;margin-bottom:10px;position:relative;overflow:hidden}
+.pay-card::before{content:"";position:absolute;inset:auto -40px -40px auto;width:140px;height:140px;border-radius:50%;background:radial-gradient(circle,rgba(229,206,43,0.16),transparent 65%);z-index:0}
+.pay-card > *{position:relative;z-index:1}
+.pay-row1{display:flex;justify-content:space-between;font-size:11px;color:var(--muted)}
+.pay-amt{font-size:28px;font-weight:700;letter-spacing:-0.02em;margin-top:4px}
+.pay-amt small{font-size:14px;color:var(--muted);font-weight:500;margin-right:4px}
+.pay-sub{font-size:11px;color:var(--muted);margin-top:2px}
+.pay-cta{display:flex;align-items:center;justify-content:space-between;margin-top:10px;padding:8px 12px;border:1px solid var(--border);border-radius:8px;font-size:11px;font-weight:500;cursor:pointer}
+.pay-cta svg{width:11px;height:11px;color:var(--muted)}
+
+.settings-row{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:var(--r-md);background:var(--glass-thin);border:1px solid var(--border);margin-bottom:6px;cursor:pointer}
+.settings-row:hover{border-color:var(--border-strong)}
+.settings-body{flex:1}
+.settings-title{font-size:12px;font-weight:500}
+.settings-meta{font-size:10px;color:var(--muted);margin-top:1px}
+
+.signout{display:flex;align-items:center;justify-content:center;gap:8px;padding:11px;margin:12px 0 6px;border-radius:8px;border:1px solid rgba(229,82,79,0.25);color:#fca5a5;font-size:12px;font-weight:600;cursor:pointer}
+.signout svg{width:14px;height:14px}
+
+/* fab */
+.fab{position:absolute;bottom:96px;right:18px;width:48px;height:48px;border-radius:50%;background:var(--primary);display:flex;align-items:center;justify-content:center;box-shadow:0 0 30px rgba(229,206,43,0.6),0 4px 12px rgba(0,0,0,0.3);z-index:15;cursor:pointer}
+.fab svg{width:20px;height:20px;color:var(--primary-fg)}
+
+/* info panel */
+.info-panel{font-size:13px;line-height:1.6}
+.info-panel h3{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;color:var(--muted);margin:0 0 8px}
+.info-panel section{margin-bottom:24px;padding-bottom:20px;border-bottom:1px solid var(--border)}
+.info-panel section:last-child{border-bottom:none}
+.info-panel .info-row{display:flex;justify-content:space-between;padding:4px 0;font-size:13px}
+.info-panel .info-row b{color:var(--fg)}
+.info-panel .info-row span{color:var(--muted)}
+.info-panel .module-pill{display:inline-block;padding:2px 8px;border-radius:4px;font-size:10px;font-weight:700;margin-right:4px}
+.info-panel .module-pill.prod{background:rgba(40,141,133,0.2);color:#7dd3c0}
+.info-panel .module-pill.hrms{background:rgba(59,130,246,0.2);color:#93c5fd}
+.note{font-size:11px;color:var(--muted);font-style:italic;margin-top:4px}
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+<defs>
+  <symbol id="i-home" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12l9-9 9 9"/><path d="M5 10v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V10"/></symbol>
+  <symbol id="i-workspace" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="14" rx="2"/><path d="M7 6V4a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v2"/><line x1="2" y1="13" x2="22" y2="13"/></symbol>
+  <symbol id="i-chat" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></symbol>
+  <symbol id="i-tasks" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></symbol>
+  <symbol id="i-punch" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18.36 6.64a9 9 0 1 1-12.73 0"/><line x1="12" y1="2" x2="12" y2="12"/></symbol>
+  <symbol id="i-office" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></symbol>
+  <symbol id="i-bell" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></symbol>
+  <symbol id="i-chev-d" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></symbol>
+  <symbol id="i-chev-l" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></symbol>
+  <symbol id="i-chev-r" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></symbol>
+  <symbol id="i-bldg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="2" width="16" height="20" rx="2"/><path d="M9 22v-4h6v4M8 6h.01M16 6h.01M12 6h.01M12 10h.01M12 14h.01M16 10h.01M16 14h.01M8 10h.01M8 14h.01"/></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></symbol>
+  <symbol id="i-meet" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></symbol>
+  <symbol id="i-people" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></symbol>
+  <symbol id="i-megaphone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="3 11 22 2 22 22 3 13 3 11"/><path d="M7 17v3a2 2 0 0 1-4 0v-3"/></symbol>
+  <symbol id="i-gift" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 12 20 22 4 22 4 12"/><rect x="2" y="7" width="20" height="5"/><line x1="12" y1="22" x2="12" y2="7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7zM12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/></symbol>
+  <symbol id="i-pin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></symbol>
+  <symbol id="i-arrow-ul" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></symbol>
+  <symbol id="i-arrow-dr" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="7" x2="17" y2="17"/><polyline points="17 7 17 17 7 17"/></symbol>
+  <symbol id="i-clock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></symbol>
+  <symbol id="i-doc" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></symbol>
+  <symbol id="i-book" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></symbol>
+  <symbol id="i-gear" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06A1.65 1.65 0 0 0 4.6 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></symbol>
+  <symbol id="i-cal-sub" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></symbol>
+  <symbol id="i-rupee" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h12M6 8h12M6 13l9 9M6 13c8.5 0 8.5-10 0-10"/></symbol>
+  <symbol id="i-trend" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></symbol>
+  <symbol id="i-card" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></symbol>
+  <symbol id="i-shield" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></symbol>
+  <symbol id="i-monitor" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></symbol>
+  <symbol id="i-chart" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="20" x2="12" y2="10"/><line x1="18" y1="20" x2="18" y2="4"/><line x1="6" y1="20" x2="6" y2="16"/></symbol>
+  <symbol id="i-star" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></symbol>
+  <symbol id="i-check-seal" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12l2 2 4-4"/><path d="M12 2l2.5 2.5L18 4l1.5 3.5L23 9l-2.5 2.5L23 15l-3.5 1.5L18 20l-3.5-.5L12 22l-2.5-2.5L6 20l-1.5-3.5L1 15l2.5-2.5L1 9l3.5-1.5L6 4l3.5.5z"/></symbol>
+  <symbol id="i-pen" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19l7-7 3 3-7 7-3-3z"/><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"/></symbol>
+  <symbol id="i-plus" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></symbol>
+  <symbol id="i-cloud" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"/></symbol>
+  <symbol id="i-note" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><line x1="9" y1="13" x2="15" y2="13"/><line x1="9" y1="17" x2="13" y2="17"/></symbol>
+  <symbol id="i-bell-add" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/><line x1="20" y1="2" x2="20" y2="6"/><line x1="22" y1="4" x2="18" y2="4"/></symbol>
+  <symbol id="i-arrow-out" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></symbol>
+  <symbol id="i-video-plus" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/><line x1="8.5" y1="9" x2="8.5" y2="15"/><line x1="5.5" y1="12" x2="11.5" y2="12"/></symbol>
+  <symbol id="i-no-overtime" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/></symbol>
+</defs>
+</svg>
+
+<div class="page">
+  <div class="page-h">
+    <h1>EasyDo 365 — iOS Skeleton</h1>
+    <p>Pick a persona, click any tab in the bottom Tab Bar, or tap the avatar in the Nav Bar to open Me. Tab Bar = <b>Home · Workspace · Chat</b> for everyone. Persona variations live as cards on Home and entries inside Me.</p>
+    <div class="tag-row">
+      <span class="tag brand">3 tabs</span>
+      <span class="tag">Glassmorphism</span>
+      <span class="tag">Persistent Nav Bar</span>
+      <span class="tag">Avatar → Me</span>
+      <span class="tag">Tasks + Meet = Workspace</span>
+    </div>
+  </div>
+
+  <nav class="persona-switcher" id="personaSwitcher"></nav>
+
+  <div class="stage">
+    <div class="phone" id="phone">
+      <div class="hdr" id="hdr"></div>
+      <div class="body" id="body"></div>
+      <div class="tabs" id="tabs"></div>
+    </div>
+    <aside class="info-panel" id="infoPanel"></aside>
+  </div>
+</div>
+
+<script>
+const I = (id) => `<svg><use href="#${id}"/></svg>`;
+
+/* ─── PERSONAS ─── */
+const personas = {
+  A: { label:'App User', sub:'Productivity-only · free · no employer', modules:['prod'], default:'home',
+    tabs:[ {id:'home',label:'Home',icon:'i-home'}, {id:'workspace',label:'Workspace',icon:'i-workspace'}, {id:'chat',label:'Chat',icon:'i-chat'} ],
+    header:{ type:'brand', logo:'E', name:'EasyDo 365', avatarInit:'JS', avatarClass:'brand' },
+    profile:{ name:'Jordan Smith', role:'App User · Member since 2024', initials:'JS', verified:true } },
+  B: { label:'HRMS Regular Employee / L3', sub:'Employee user · sees only themselves · branch read-only', modules:['prod','hrms'], default:'home',
+    tabs:[ {id:'home',label:'Home',icon:'i-home'}, {id:'workspace',label:'Workspace',icon:'i-workspace'}, {id:'chat',label:'Chat',icon:'i-chat'} ],
+    header:{ type:'company', logo:'L', name:'Liberty Infospace', branch:{label:'Head Office',readonly:true}, avatarInit:'SG' },
+    profile:{ name:'Sayantan Ghosh', role:'JUNIOR AIML · Head Office', initials:'SG', verified:true, completion:80, hrms:true } },
+  D: { label:'HRMS L2 — Branch Manager', sub:'Manages a branch · branch chip interactive · can approve', modules:['prod','hrms','manage-branch'], default:'home',
+    tabs:[ {id:'home',label:'Home',icon:'i-home'}, {id:'workspace',label:'Workspace',icon:'i-workspace'}, {id:'chat',label:'Chat',icon:'i-chat'} ],
+    header:{ type:'company', logo:'L', name:'Liberty Infospace', branch:{label:'Head Office',readonly:false}, avatarInit:'SG' },
+    profile:{ name:'Sayantan Ghosh', role:'L2 · Branch Manager · Head Office', initials:'SG', verified:true, manager:true, hrms:true } },
+  E: { label:'HRMS L1 — CEO / Top Mgmt', sub:'Company-wide oversight · default scope All Branches', modules:['prod','hrms','manage-company'], default:'home',
+    tabs:[ {id:'home',label:'Home',icon:'i-home'}, {id:'workspace',label:'Workspace',icon:'i-workspace'}, {id:'chat',label:'Chat',icon:'i-chat'} ],
+    header:{ type:'company', logo:'L', name:'Liberty Infospace', branch:{label:'All Branches',readonly:false}, avatarInit:'SG' },
+    profile:{ name:'Sayantan Ghosh', role:'L1 · CEO · Liberty Infospace', initials:'SG', verified:true, ceo:true, hrms:true } },
+};
+
+/* ─── REUSABLE BLOCKS ─── */
+const announcementsBlock = () => `
+  <div class="section-head"><h2 class="title-2">Announcements</h2><span class="view-all">View All ›</span></div>
+  <div class="glass announce-card">
+    <div>
+      <div class="ac-meta">All Branches · 7 May</div>
+      <div class="ac-title">Test 3</div>
+      <div class="ac-body">Test announcement content</div>
+    </div>
+    <div class="announce-thumb">194</div>
+  </div>
+  <div class="dots"><span class="on"></span><span></span><span></span><span></span></div>`;
+
+const holidaysBlock = () => `
+  <div class="section-head"><h2 class="title-2">Upcoming Holidays</h2><span class="view-all">View All ›</span></div>
+  <div class="glass" style="padding:0 12px">
+    <div class="holiday-row"><div class="date-pill"><div class="d">15</div><div class="m">May</div></div><div class="list-body"><div class="h-name">Buddha Purnima</div><div class="h-day">Wednesday</div></div></div>
+    <div class="holiday-row"><div class="date-pill"><div class="d">26</div><div class="m">May</div></div><div class="list-body"><div class="h-name">Memorial Day</div><div class="h-day">Sunday</div></div></div>
+  </div>`;
+
+const eotmBlock = () => `
+  <div class="section-head"><h2 class="title-2">Employee of Month <span style="color:var(--primary);font-weight:500;font-size:11px">Apr 2026</span></h2></div>
+  <div class="glass eotm">
+    <div class="eotm-avatar"></div>
+    <div><div class="eotm-name">Sankha Subhra Moitra</div><div class="eotm-meta">Head Office</div><div class="eotm-score">Score 66.67</div></div>
+  </div>`;
+
+const birthdayBlock = () => `
+  <div class="section-head"><h2 class="title-2">Birthdays Today</h2></div>
+  <div class="glass sched-card glow-rose" style="margin-bottom:8px">
+    <div class="list-avatar av3" style="width:30px;height:30px;font-size:10px">RT</div>
+    <div class="sched-body"><div class="sched-title">Rounik Tarafder</div><div class="sched-meta">Send a wish 🎂</div></div>
+    <span class="pill danger">Birthday</span>
+  </div>`;
+
+const todayScheduleBlock = (variant='full') => {
+  const items = variant === 'ceo' ? [
+    {time:'10:00<br>AM', glow:'glow-yellow', icon:'i-people', color:'var(--primary)', title:'Board Sync', meta:'All branches · 1h'},
+    {time:'2:00<br>PM',  glow:'glow-teal',   icon:'i-meet',   color:'var(--teal)',    title:'Investor call', meta:'Quarterly · 45 min'},
+  ] : [
+    {time:'9:00<br>AM',  glow:'glow-peach',  icon:'i-people', color:'var(--peach)',   title:'Design Sync', meta:'with Sukanta · 30 min'},
+    {time:'11:30<br>AM', glow:'glow-yellow', icon:'i-tasks',  color:'var(--primary)', title:'Stress Test Report', meta:'Due today · #WORK'},
+    {time:'2:00<br>PM',  glow:'glow-teal',   icon:'i-meet',   color:'var(--teal)',    title:'Liberty Kolkata Dev', meta:'Group · 1 hour'},
+  ];
+  return `
+    <div class="section-head"><h2 class="title-2">Today's Schedule</h2><span class="view-all">View All ›</span></div>
+    ${items.map(it => `
+      <div class="sched-row">
+        <div class="sched-time">${it.time}</div>
+        <div class="glass sched-card ${it.glow}">
+          <div class="sched-icon" style="color:${it.color}">${I(it.icon)}</div>
+          <div class="sched-body"><div class="sched-title">${it.title}</div><div class="sched-meta">${it.meta}</div></div>
+        </div>
+      </div>`).join('')}`;
+};
+
+const punchHero = () => `
+  <div class="glass time-card">
+    <div class="time-big">05:06<small>PM</small></div>
+    <div class="time-meta">Thursday, 7 May · IST</div>
+    <div class="time-status"><span class="dot"></span>Branch open · Flexible hours</div>
+  </div>
+  <div class="elapsed">
+    <div class="elapsed-track"><div class="elapsed-fill" style="width:84%"></div></div>
+    <div class="elapsed-labels"><span>9h goal</span><span><b>7h 36m</b></span></div>
+  </div>
+  <div class="punch-hero">
+    <div class="punch-orb">${I('i-punch')}</div>
+    <div class="punch-label">Punch Out</div>
+    <div class="punch-sub">Tap &amp; hold to confirm</div>
+  </div>
+  <div class="punch-chips">
+    <div class="punch-chip"><div class="pc-row" style="color:var(--success)">${I('i-arrow-ul')}In</div><div class="pc-val">09:30 AM</div></div>
+    <div class="punch-chip"><div class="pc-row">${I('i-arrow-dr')}Out</div><div class="pc-val empty">--:--</div></div>
+    <div class="punch-chip"><div class="pc-row" style="color:var(--primary)">${I('i-clock')}Total</div><div class="pc-val">07:36</div></div>
+  </div>`;
+
+const quickRequestRow = () => `
+  <h2 class="title-2">Quick Requests</h2>
+  <div class="qr-row">
+    <div class="qr-tile">${I('i-cal-sub')}<div class="qr-label">Leave</div></div>
+    <div class="qr-tile">${I('i-clock')}<div class="qr-label">Overtime</div></div>
+    <div class="qr-tile">${I('i-rupee')}<div class="qr-label">Advance</div></div>
+    <div class="qr-tile">${I('i-card')}<div class="qr-label">Reimburse</div></div>
+  </div>`;
+
+const branchPulse = (label, present, total, absent, leave) => `
+  <div class="glass who-hero">
+    <div class="who-row">
+      <div><div class="who-num">${present}<small>/${total}</small></div><div class="who-meta">Present at ${label}</div></div>
+      <div class="who-icon">🏢</div>
+    </div>
+    <div class="who-bar"><div class="seg-p" style="flex:${present}"></div><div class="seg-a" style="flex:${absent}"></div><div class="seg-l" style="flex:${leave}"></div></div>
+    <div class="who-legend">
+      <span><span class="dot" style="background:var(--success)"></span>Present ${present}</span>
+      <span><span class="dot" style="background:var(--destructive)"></span>Absent ${absent}</span>
+      <span><span class="dot" style="background:var(--info)"></span>Leave ${leave}</span>
+    </div>
+  </div>`;
+
+const manageOfficeCard = (label, count) => `
+  <div class="glass manage-card" data-action="open-office">
+    <div class="manage-card-icon">${I('i-office')}</div>
+    <div class="manage-card-text">
+      <div class="manage-card-title">Manage Office</div>
+      <div class="manage-card-sub">${label} · approvals, reports, register</div>
+      <div class="manage-card-meta">
+        <span><b>${count}</b> pending approvals</span>
+      </div>
+    </div>
+    ${I('i-chev-r')}
+  </div>`;
+
+/* ─── HOME (per persona) ─── */
+const homeFor = (p) => {
+  if (p === 'A') {
+    return `
+      <h1 class="title-1">Good evening, Jordan</h1>
+      <p class="subhead">Thursday, 7 May 2026</p>
+      ${todayScheduleBlock()}
+      ${birthdayBlock()}
+    `;
+  }
+  if (p === 'B') {
+    return `
+      <h1 class="title-1">Good evening</h1>
+      <p class="subhead">Sayantan · Thu, 7 May 2026</p>
+      ${punchHero()}
+      ${quickRequestRow()}
+      ${todayScheduleBlock()}
+      ${birthdayBlock()}
+      ${announcementsBlock()}
+      ${holidaysBlock()}
+      ${eotmBlock()}
+    `;
+  }
+  if (p === 'D') {
+    return `
+      <h1 class="title-1">Good evening</h1>
+      <p class="subhead">Sayantan · Branch Manager · Thu, 7 May</p>
+      ${branchPulse('Head Office', 7, 18, 10, 1)}
+      ${manageOfficeCard('Head Office', 4)}
+      ${punchHero()}
+      ${quickRequestRow()}
+      ${todayScheduleBlock()}
+      ${announcementsBlock()}
+      ${birthdayBlock()}
+    `;
+  }
+  if (p === 'E') {
+    return `
+      <h1 class="title-1">Good evening</h1>
+      <p class="subhead">Sayantan · CEO · Thu, 7 May</p>
+      ${branchPulse('all branches', 7, 23, 15, 1)}
+      <div class="glass" style="padding:12px;margin-bottom:10px">
+        <div style="font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:0.04em;margin-bottom:6px">Branch Breakdown</div>
+        <div class="row-between" style="font-size:11px;padding:3px 0"><span>Head Office</span><span><b>5</b><span class="muted">/12</span></span></div>
+        <div class="row-between" style="font-size:11px;padding:3px 0"><span>Kolkata</span><span><b>2</b><span class="muted">/8</span></span></div>
+        <div class="row-between" style="font-size:11px;padding:3px 0"><span>Mumbai</span><span><b>0</b><span class="muted">/3</span></span></div>
+      </div>
+      ${manageOfficeCard('All Branches', 4)}
+      ${punchHero()}
+      ${todayScheduleBlock('ceo')}
+      ${announcementsBlock()}
+      ${eotmBlock()}
+    `;
+  }
+};
+
+/* ─── WORKSPACE — universal ─── */
+const workspace = () => `
+  <div class="row-between"><h1 class="title-1">Workspace</h1><span class="muted" style="font-size:12px">Tasks · Meets · Notes</span></div>
+
+  <div class="ws-cta">
+    <div class="ws-cta-icon">${I('i-video-plus')}</div>
+    <div class="ws-cta-text">
+      <div class="mc-title">Start an Instant Meeting</div>
+      <div class="mc-sub">Get a link in 2 seconds</div>
+    </div>
+  </div>
+
+  <div class="search">${I('i-search')}Search workspace</div>
+  <div class="chip-row">
+    <span class="chip active">All</span>
+    <span class="chip">Tasks (12)</span>
+    <span class="chip">Meets (6)</span>
+    <span class="chip">Reminders (5)</span>
+    <span class="chip">Notes</span>
+  </div>
+
+  <h2 class="title-2">Today</h2>
+  <div class="glass" style="padding:0 12px">
+    <div class="ws-item">
+      <div class="ws-time"><span class="h">11:30</span>AM</div>
+      <div class="ws-icon task">${I('i-tasks')}</div>
+      <div class="ws-info"><div class="ws-title">Stress Test Capacity Report</div><div class="ws-meta">Task · Due today <span class="task-tag">#WORK</span></div></div>
+      <div class="ws-check"></div>
+    </div>
+    <div class="ws-item">
+      <div class="ws-time"><span class="h">2:00</span>PM</div>
+      <div class="ws-icon meet">${I('i-meet')}</div>
+      <div class="ws-info"><div class="ws-title">Liberty Kolkata Dev Team</div><div class="ws-meta">Meeting · Group · 1h</div></div>
+      <div class="ws-action">Join</div>
+    </div>
+    <div class="ws-item">
+      <div class="ws-time"><span class="h">4:00</span>PM</div>
+      <div class="ws-icon meet">${I('i-meet')}</div>
+      <div class="ws-info"><div class="ws-title">1:1 with Soumyadeep</div><div class="ws-meta">Meeting · 30 min</div></div>
+      <div class="ws-action">Join</div>
+    </div>
+    <div class="ws-item">
+      <div class="ws-time"><span class="h">4:00</span>PM</div>
+      <div class="ws-icon reminder">${I('i-bell-add')}</div>
+      <div class="ws-info"><div class="ws-title">Submit weekly report</div><div class="ws-meta">Reminder</div></div>
+      <div class="ws-check"></div>
+    </div>
+  </div>
+
+  <h2 class="title-2">Tomorrow</h2>
+  <div class="glass" style="padding:0 12px">
+    <div class="ws-item">
+      <div class="ws-time"><span class="h">10:00</span>AM</div>
+      <div class="ws-icon meet">${I('i-meet')}</div>
+      <div class="ws-info"><div class="ws-title">Sprint Planning</div><div class="ws-meta">Meeting · 8 invitees · 1h</div></div>
+      <div class="ws-action">Join</div>
+    </div>
+    <div class="ws-item">
+      <div class="ws-time"><span class="h">EOD</span></div>
+      <div class="ws-icon task">${I('i-tasks')}</div>
+      <div class="ws-info"><div class="ws-title">Update onboarding doc</div><div class="ws-meta">Task · Tomorrow</div></div>
+      <div class="ws-check"></div>
+    </div>
+  </div>
+
+  <h2 class="title-2">Awaiting Review</h2>
+  <div class="glass" style="padding:0 12px">
+    <div class="ws-item">
+      <div class="ws-icon task" style="grid-column:1/3;width:30px;height:30px">${I('i-check-seal')}</div>
+      <div class="ws-info"><div class="ws-title">Tasks Done — Awaiting Review (1)</div><div class="ws-meta">Delegated · The creator must review</div></div>
+      <div class="ws-action">Review</div>
+    </div>
+  </div>
+
+  <div class="fab" data-action="add-ws">${I('i-plus')}</div>
+`;
+
+/* ─── CHAT — universal ─── */
+const chat = () => `
+  <h1 class="title-1">Chat</h1>
+  <div class="search">${I('i-search')}Search conversations</div>
+  <div class="chip-row">
+    <span class="chip active">All</span>
+    <span class="chip">Unread</span>
+    <span class="chip">Groups</span>
+    <span class="chip">Labels</span>
+    <span class="chip">Archived</span>
+  </div>
+  <div class="stats-row">
+    <div class="stat-tile g-yellow"><div class="num">12</div><div class="lbl">My Tasks</div></div>
+    <div class="stat-tile g-peach"><div class="num">1</div><div class="lbl">Delegated</div></div>
+    <div class="stat-tile g-teal"><div class="num">6</div><div class="lbl">Meets</div></div>
+    <div class="stat-tile g-bronze"><div class="num">0</div><div class="lbl">Notes</div></div>
+  </div>
+  <div class="list-row"><div class="list-avatar gradient-ai">AI</div><div class="list-body"><div class="list-title">EasyDo AI</div><div class="list-meta">Punch In...</div></div><div class="list-trail"><span class="list-time">5:06 PM</span></div></div>
+  <div class="list-row"><div class="list-avatar av2">AS</div><div class="list-body"><div class="list-title">Amulya Sir</div><div class="list-meta">✓✓ 🚩 Attendance</div></div><div class="list-trail"><span class="list-time">5:06 PM</span></div></div>
+  <div class="list-row"><div class="list-avatar av4">LK</div><div class="list-body"><div class="list-title">Liberty Kolkata Dev <span class="task-tag">#WORK</span></div><div class="list-meta">Stress Test Capacity Report</div></div><div class="list-trail"><span class="list-time">5:06 PM</span><span class="unread">2</span></div></div>
+  <div class="list-row"><div class="list-avatar av3">UT</div><div class="list-body"><div class="list-title">UI Testing</div><div class="list-meta">Sukanta: 🤝 Meet</div></div><div class="list-trail"><span class="list-time">4:34 PM</span><span class="unread">52</span></div></div>
+  <div class="list-row"><div class="list-avatar av1">IT</div><div class="list-body"><div class="list-title">iOS Testing Group</div><div class="list-meta">Sankha Subhra has left</div></div><div class="list-trail"><span class="list-time">Yesterday</span><span class="unread">28</span></div></div>
+  <div class="list-row"><div class="list-avatar av5">BR</div><div class="list-body"><div class="list-title">Bug Resolve 2025</div><div class="list-meta">Sankha Subhra has left</div></div><div class="list-trail"><span class="list-time">Yesterday</span></div></div>
+  <div class="fab">${I('i-pen')}</div>
+`;
+
+/* ─── ME (deep screen, persona-adapted) ─── */
+const meScreen = (p) => {
+  const cfg = personas[p].profile;
+  const isProd = !cfg.hrms;
+  const isManager = cfg.manager || cfg.ceo;
+  return `
+    <div class="glass profile">
+      <div class="profile-avatar">${cfg.initials}</div>
+      <div class="profile-info">
+        <div class="profile-name">${cfg.name}</div>
+        <div class="profile-role">${cfg.role}</div>
+        <div class="profile-pills">
+          ${cfg.verified ? '<span class="pill success">Verified</span>' : ''}
+          ${cfg.completion ? `<span class="pill warn">Profile ${cfg.completion}%</span>` : ''}
+          ${cfg.manager ? '<span class="pill info">Manager</span>' : ''}
+          ${cfg.ceo ? '<span class="pill info">CEO</span>' : ''}
+        </div>
+      </div>
+    </div>
+
+    ${!isProd ? `
+    <div class="glass pay-card">
+      <div class="pay-row1"><span>This month</span><span>May 2026</span></div>
+      <div class="pay-amt"><small>₹</small>${cfg.ceo ? '4,82,000' : (cfg.manager ? '92,500' : '7,302')}</div>
+      <div class="pay-sub">Net Pay</div>
+      <div class="pay-cta"><span style="color:var(--muted);font-size:11px">Next payslip in 24 days</span><span>View payslip ${I('i-chev-r')}</span></div>
+    </div>` : ''}
+
+    ${isProd ? `
+    <h2 class="title-2">My Productivity</h2>
+    <div class="settings-row"><div class="list-icon">${I('i-note')}</div><div class="settings-body"><div class="settings-title">Notes</div><div class="settings-meta">23 notes</div></div>${I('i-chev-r')}</div>
+    <div class="settings-row"><div class="list-icon">${I('i-cloud')}</div><div class="settings-body"><div class="settings-title">My Drive</div><div class="settings-meta">2.4 GB used</div></div>${I('i-chev-r')}</div>
+    <div class="settings-row"><div class="list-icon">${I('i-bell-add')}</div><div class="settings-body"><div class="settings-title">Reminders</div><div class="settings-meta">5 active</div></div>${I('i-chev-r')}</div>
+    <div class="settings-row"><div class="list-icon">${I('i-cal-sub')}</div><div class="settings-body"><div class="settings-title">Calendar Sync</div><div class="settings-meta">Apple Calendar · Connected</div></div>${I('i-chev-r')}</div>
+    ` : `
+    <h2 class="title-2">My HR</h2>
+    <div class="settings-row"><div class="list-icon">${I('i-cal-sub')}</div><div class="settings-body"><div class="settings-title">My Leaves</div><div class="settings-meta">3 used · 12 remaining</div></div>${I('i-chev-r')}</div>
+    <div class="settings-row"><div class="list-icon">${I('i-trend')}</div><div class="settings-body"><div class="settings-title">My Attendance</div><div class="settings-meta">May · 6 of 7 working days</div></div>${I('i-chev-r')}</div>
+    <div class="settings-row"><div class="list-icon">${I('i-doc')}</div><div class="settings-body"><div class="settings-title">Documents</div><div class="settings-meta">Payslips, ID proofs, agreements</div></div>${I('i-chev-r')}</div>
+    <div class="settings-row"><div class="list-icon">${I('i-book')}</div><div class="settings-body"><div class="settings-title">Employee Handbook</div><div class="settings-meta">Policies &amp; guidelines</div></div>${I('i-chev-r')}</div>
+    `}
+
+    ${isManager ? `
+    <h2 class="title-2">${cfg.ceo ? 'CEO Tools' : 'Manager Tools'}</h2>
+    <div class="settings-row"><div class="list-icon">${I('i-people')}</div><div class="settings-body"><div class="settings-title">Team Management</div><div class="settings-meta">${cfg.ceo ? 'All branches' : '8 direct reports'}</div></div>${I('i-chev-r')}</div>
+    <div class="settings-row"><div class="list-icon">${I('i-bldg')}</div><div class="settings-body"><div class="settings-title">Branch Settings</div><div class="settings-meta">${cfg.ceo ? 'All 3 branches' : 'Hours, holidays, policies'}</div></div>${I('i-chev-r')}</div>
+    ${cfg.ceo ? `<div class="settings-row"><div class="list-icon">${I('i-monitor')}</div><div class="settings-body"><div class="settings-title">Company Settings</div><div class="settings-meta">Policies, billing, integrations</div></div>${I('i-chev-r')}</div>` : ''}
+    ` : ''}
+
+    <h2 class="title-2">Account</h2>
+    ${cfg.hrms ? `<div class="settings-row"><div class="list-icon">${I('i-bldg')}</div><div class="settings-body"><div class="settings-title">Switch Company</div><div class="settings-meta">Liberty Infospace · 1 of 2</div></div>${I('i-chev-r')}</div>` : ''}
+    <div class="settings-row"><div class="list-icon">${I('i-gear')}</div><div class="settings-body"><div class="settings-title">Settings</div><div class="settings-meta">Theme, notifications, privacy</div></div>${I('i-chev-r')}</div>
+    ${isProd ? `<div class="settings-row" style="border-color:rgba(229,206,43,0.25);background:rgba(229,206,43,0.06)"><div class="list-icon warn">${I('i-star')}</div><div class="settings-body"><div class="settings-title">Upgrade to HRMS</div><div class="settings-meta">Get attendance, payroll, leave</div></div>${I('i-chev-r')}</div>` : ''}
+
+    <div class="signout">${I('i-arrow-out')}Sign Out</div>
+  `;
+};
+
+/* ─── OFFICE (deep screen, manager only) ─── */
+const officeScreen = (p) => {
+  const isCEO = p === 'E';
+  const scope = isCEO ? 'All Branches' : 'Head Office';
+  const totalStaff = isCEO ? 23 : 18;
+  const present = 7;
+  const absent = isCEO ? 15 : 10;
+  return `
+    <p class="subhead">${scope} · ${totalStaff} staff total</p>
+    ${branchPulse(scope.toLowerCase(), present, totalStaff, absent, 1)}
+
+    <h2 class="title-2">Today's Attendance</h2>
+    <div class="att-grid">
+      <div class="att-tile"><div class="num" style="color:var(--success)">${present}</div><div class="lbl">Present</div></div>
+      <div class="att-tile"><div class="num" style="color:var(--destructive)">${absent}</div><div class="lbl">Absent</div></div>
+      <div class="att-tile"><div class="num">0</div><div class="lbl">Late</div></div>
+      <div class="att-tile"><div class="num">1</div><div class="lbl">Half Day</div></div>
+      <div class="att-tile"><div class="num">0</div><div class="lbl">Week Off</div></div>
+      <div class="att-tile"><div class="num">1</div><div class="lbl">Leaves</div></div>
+      <div class="att-tile"><div class="num">0</div><div class="lbl">Holiday</div></div>
+      <div class="att-tile"><div class="num" style="color:var(--destructive)">${isCEO ? 5 : 3}</div><div class="lbl">Red Flags</div></div>
+    </div>
+
+    <h2 class="title-2">Quick Actions</h2>
+    <div class="action-grid">
+      <div class="action-tile"><span class="badge">4</span>${I('i-check-seal')}<div class="at-label">Approvals</div></div>
+      <div class="action-tile"><span class="badge">15</span>${I('i-star')}<div class="at-label">Mgmt Review</div></div>
+      <div class="action-tile">${I('i-people')}<div class="at-label">Register</div></div>
+      <div class="action-tile">${I('i-shield')}<div class="at-label">BG Verification</div></div>
+      ${isCEO ? `<div class="action-tile">${I('i-bldg')}<div class="at-label">Branches</div></div>` : ''}
+      <div class="action-tile">${I('i-megaphone')}<div class="at-label">Announcements</div></div>
+      <div class="action-tile">${I('i-doc')}<div class="at-label">Documents</div></div>
+      <div class="action-tile">${I('i-cal-sub')}<div class="at-label">Leaves</div></div>
+      <div class="action-tile">${I('i-gift')}<div class="at-label">Holidays</div></div>
+      <div class="action-tile">${I('i-chart')}<div class="at-label">Reports</div></div>
+      ${isCEO ? `<div class="action-tile">${I('i-monitor')}<div class="at-label">Web Admin</div></div>` : ''}
+      <div class="action-tile">${I('i-pin')}<div class="at-label">Location</div></div>
+    </div>
+
+    <div class="section-head"><h2 class="title-2">Pending Approvals</h2><span class="view-all">View All ›</span></div>
+    <div class="glass approval">
+      <div class="approval-row">
+        <div class="list-avatar av3" style="width:28px;height:28px;font-size:9px">PS</div>
+        <div style="flex:1"><div class="approval-name">Priya Sharma</div><div class="approval-meta">${isCEO ? 'Kolkata' : 'Sales Exec'} · 15-17 May</div></div>
+      </div>
+      <div class="approval-type">Casual Leave Request</div>
+      <div class="approval-actions"><div class="btn danger">Reject</div><div class="btn primary">Approve</div></div>
+    </div>
+    <div class="glass approval">
+      <div class="approval-row">
+        <div class="list-avatar av4" style="width:28px;height:28px;font-size:9px">RM</div>
+        <div style="flex:1"><div class="approval-name">Rahul Mehta</div><div class="approval-meta">Designer · 4 hours</div></div>
+      </div>
+      <div class="approval-type">Overtime Request</div>
+      <div class="approval-actions"><div class="btn danger">Reject</div><div class="btn primary">Approve</div></div>
+    </div>
+  `;
+};
+
+/* ─── STATE & ROUTING ─── */
+let state = { persona:'A', tab:'home', deep:null }; // deep: 'me' | 'office' | null
+
+function getBodyHTML() {
+  if (state.deep === 'me') return meScreen(state.persona);
+  if (state.deep === 'office') return officeScreen(state.persona);
+  if (state.tab === 'home') return homeFor(state.persona);
+  if (state.tab === 'workspace') return workspace();
+  if (state.tab === 'chat') return chat();
+  return '<div style="padding:40px;text-align:center;color:var(--muted)">—</div>';
+}
+
+function renderHeader() {
+  const p = personas[state.persona];
+  const h = p.header;
+  const hdr = document.getElementById('hdr');
+  if (state.deep) {
+    const title = state.deep === 'me' ? 'Me' : (state.persona === 'E' ? 'All Branches Office' : 'Office');
+    hdr.innerHTML = `
+      <div class="hdr-back" data-action="back">${I('i-chev-l')}</div>
+      <div class="hdr-title">${title}</div>
+      <div class="hdr-spacer"></div>
+      <div class="hdr-bell">${I('i-bell')}</div>
+    `;
+  } else if (h.type === 'brand') {
+    hdr.innerHTML = `
+      <div class="hdr-logo brand">${h.logo}</div>
+      <div class="hdr-name">${h.name}</div>
+      <div class="hdr-spacer"></div>
+      <div class="hdr-bell">${I('i-bell')}</div>
+      <div class="hdr-avatar ${h.avatarClass||''}" data-action="open-me">${h.avatarInit}</div>
+    `;
+  } else {
+    hdr.innerHTML = `
+      <div class="hdr-logo">${h.logo}</div>
+      <div class="hdr-name">${h.name}${I('i-chev-d')}</div>
+      <div class="hdr-branch ${h.branch.readonly?'readonly':''}">${I('i-bldg')}<span class="b-label">${h.branch.label}</span><svg class="b-chev"><use href="#i-chev-d"/></svg></div>
+      <div class="hdr-spacer"></div>
+      <div class="hdr-bell">${I('i-bell')}</div>
+      <div class="hdr-avatar" data-action="open-me">${h.avatarInit}</div>
+    `;
+  }
+  hdr.querySelectorAll('[data-action]').forEach(el => {
+    el.addEventListener('click', () => {
+      const a = el.dataset.action;
+      if (a === 'back') state.deep = null;
+      if (a === 'open-me') state.deep = 'me';
+      renderAll();
+      document.getElementById('body').scrollTo(0,0);
+    });
+  });
+}
+
+function renderTabs() {
+  const p = personas[state.persona];
+  const tabs = document.getElementById('tabs');
+  tabs.innerHTML = p.tabs.map(t =>
+    `<button class="tab ${(!state.deep && t.id===state.tab)?'active':''}" data-tab="${t.id}">${I(t.icon)}<span class="t-label">${t.label}</span></button>`
+  ).join('');
+  tabs.querySelectorAll('.tab').forEach(btn => {
+    btn.addEventListener('click', () => {
+      state.tab = btn.dataset.tab;
+      state.deep = null;
+      renderAll();
+      document.getElementById('body').scrollTo(0,0);
+    });
+  });
+}
+
+function renderBody() {
+  const body = document.getElementById('body');
+  body.innerHTML = getBodyHTML();
+  // wire deep-screen actions inside the body
+  body.querySelectorAll('[data-action="open-office"]').forEach(el => {
+    el.addEventListener('click', () => {
+      state.deep = 'office';
+      renderAll();
+      document.getElementById('body').scrollTo(0,0);
+    });
+  });
+}
+
+function renderPersonaSwitcher() {
+  const sw = document.getElementById('personaSwitcher');
+  sw.innerHTML = Object.entries(personas).map(([k,p]) =>
+    `<button class="persona-btn ${state.persona===k?'active':''}" data-persona="${k}">
+       <span class="pb-tag">${k}</span>
+       <div><span class="pb-name">${p.label}</span><span class="pb-sub">${p.sub}</span></div>
+     </button>`
+  ).join('');
+  sw.querySelectorAll('.persona-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      state.persona = btn.dataset.persona;
+      state.tab = personas[state.persona].default;
+      state.deep = null;
+      renderAll();
+      document.getElementById('body').scrollTo(0,0);
+    });
+  });
+}
+
+function renderInfo() {
+  const p = personas[state.persona];
+  const info = document.getElementById('infoPanel');
+  const moduleLabels = {prod:'Productivity', hrms:'HRMS', 'manage-branch':'Branch Mgmt', 'manage-company':'Company Mgmt'};
+  const currentLabel = state.deep ? (state.deep === 'me' ? 'Me (deep)' : 'Office (deep)') : (p.tabs.find(t=>t.id===state.tab)?.label || '—');
+  info.innerHTML = `
+    <section>
+      <h3>Currently viewing</h3>
+      <div class="info-row"><span>Persona</span><b>${p.label}</b></div>
+      <div class="info-row"><span>Screen</span><b>${currentLabel}</b></div>
+      <div class="info-row"><span>Default tab</span><b>${p.tabs.find(t=>t.id===p.default)?.label}</b></div>
+    </section>
+    <section>
+      <h3>Tab Bar (3 tabs, universal)</h3>
+      <div class="info-row"><span>1</span><b>Home</b></div>
+      <div class="info-row"><span>2</span><b>Workspace <span class="muted" style="font-weight:400;font-size:11px">(Tasks · Meets · Notes · Reminders)</span></b></div>
+      <div class="info-row"><span>3</span><b>Chat</b></div>
+    </section>
+    <section>
+      <h3>Nav Bar (top)</h3>
+      <p style="font-size:12px;color:var(--muted);line-height:1.5;margin:0">
+        ${p.modules.includes('hrms')
+          ? '<b style="color:var(--fg)">Company switcher</b> + <b style="color:var(--fg)">Branch chip</b> + Bell + <b style="color:var(--fg)">Avatar</b>'
+          : 'EasyDo brand + Bell + <b style="color:var(--fg)">Avatar</b>'}
+        <br><br>Tap the <b style="color:var(--primary)">avatar</b> in the top-right to open Me.
+      </p>
+    </section>
+    <section>
+      <h3>Module access</h3>
+      <p>${p.modules.map(m=>`<span class="module-pill ${m==='prod'?'prod':'hrms'}">${moduleLabels[m]||m}</span>`).join('')}</p>
+      <p class="note">${
+        state.persona === 'A' ? 'No company affiliation. No HRMS surfaces visible. Tasks + Meet inside Workspace.' :
+        state.persona === 'B' ? 'Sees their own attendance/payroll only. Punch button + Quick Requests on Home. Tasks + Meet inside Workspace.' :
+        state.persona === 'D' ? 'Manages a single branch. Branch Pulse + Manage Office card on Home. Tap Manage Office to drill into the company control panel.' :
+        'Company-wide oversight. All Branches scope. Branch breakdown on Home. Same Workspace + Chat as everyone.'
+      }</p>
+    </section>
+    <section>
+      <h3>How to navigate</h3>
+      <p style="font-size:12px;color:var(--muted);line-height:1.7;margin:0">
+        • Click any tab in the bottom Tab Bar.<br>
+        • Tap the avatar (top-right of Nav Bar) → opens <b style="color:var(--fg)">Me</b>.<br>
+        ${p.modules.includes('manage-branch') || p.modules.includes('manage-company') ? '• Tap "Manage Office" card on Home → opens <b style="color:var(--fg)">Office</b>.<br>' : ''}
+        • Switch personas above to see how the same app reshapes.
+      </p>
+    </section>
+  `;
+}
+
+function renderAll() {
+  renderHeader();
+  renderTabs();
+  renderBody();
+  renderPersonaSwitcher();
+  renderInfo();
+}
+
+renderAll();
+</script>
+</body>
+</html>
