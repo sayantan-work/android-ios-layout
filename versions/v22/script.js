@@ -703,8 +703,8 @@ function officeBody(){
   const seg = `
     <div class="office-seg-wrap">
       <div class="office-seg" role="tablist" aria-label="Office mode">
-        <button class="os-opt ${m==='self'?'active':''}"   onclick="setOfficeMode('self')"   role="tab" aria-selected="${m==='self'}">Self</button>
-        <button class="os-opt ${m==='manage'?'active':''}" onclick="setOfficeMode('manage')" role="tab" aria-selected="${m==='manage'}">Manage</button>
+        <button class="os-opt ${m==='self'?'active':''}"   onclick="setOfficeMode('self')"   role="tab" aria-selected="${m==='self'}">Me</button>
+        <button class="os-opt ${m==='manage'?'active':''}" onclick="setOfficeMode('manage')" role="tab" aria-selected="${m==='manage'}">My Team</button>
       </div>
     </div>
   `;

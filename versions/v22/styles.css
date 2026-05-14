@@ -213,7 +213,7 @@ a{color:inherit;text-decoration:none}
 .tab:active{transform:scale(0.94);transition:transform .05s}
 .tab.punch-tab{color:var(--text)}
 .tab.punch-tab svg{
-  width:56px;height:56px;color:#fff;stroke-width:0;
+  width:56px;height:56px;color:#fff;stroke-width:1.4;
   background:var(--sage);
   color:#fff;border-radius:50%;padding:11px;
   margin-top:-32px;
