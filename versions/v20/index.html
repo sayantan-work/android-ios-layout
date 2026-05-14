@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>EasyDo 365 — v20 (Quiet + tier-aware)</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<!-- ── Line icons (Lucide-style stroke) ── -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="i-home"   viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12l9-9 9 9"/><path d="M5 10v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V10"/></symbol>
+    <symbol id="i-work"   viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></symbol>
+    <symbol id="i-chat"   viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></symbol>
+    <symbol id="i-me"     viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></symbol>
+    <symbol id="i-punch"  viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3"/></symbol>
+    <symbol id="i-check"  viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></symbol>
+    <symbol id="i-user"   viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></symbol>
+    <symbol id="i-zap"    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></symbol>
+    <symbol id="i-stop"   viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="6" width="12" height="12" rx="1"/></symbol>
+  </defs>
+</svg>
+
+<div class="page">
+
+  <nav aria-label="Version switcher" class="vsw">
+    <span class="vlabel">Version</span>
+    <a href="../v1/index.html">v1</a> <a href="../v2/index.html">v2</a> <a href="../v3/index.html">v3</a> <a href="../v4/index.html">v4</a> <a href="../v5/index.html">v5</a> <a href="../v6/index.html">v6</a> <a href="../v7/index.html">v7</a> <a href="../v8/index.html">v8</a> <a href="../v9/index.html">v9</a> <a href="../v10/index.html">v10</a> <a href="../v11/index.html">v11</a> <a href="../v12/index.html">v12</a> <a href="../v13/index.html">v13</a> <a href="../v14/index.html">v14</a> <a href="../v15/index.html">v15</a> <a href="../v16/index.html">v16</a> <a href="../v17/index.html">v17</a> <a href="../v18/index.html">v18</a> <a href="../v19/index.html">v19</a> <a href="../v20/index.html" aria-current="page">v20</a> <a href="../v21/index.html">v21</a> <a href="../v22/index.html">v22</a>
+  </nav>
+
+  <nav aria-label="Light/dark mode" class="msw" id="modeSwitcher">
+    <span class="mlabel">Mode</span>
+    <button type="button" data-mode="light">Light</button>
+    <button type="button" data-mode="">Dark</button>
+  </nav>
+
+  <div class="page-h">
+    <h1>EasyDo 365 — v20 (Quiet + tier-aware)</h1>
+    <p>v20 keeps v19's monochrome-hairlines-only philosophy but adds the four things v19 was missing for a real attendance app: <b>verification-source line</b>, <b>tier-aware topbar chip</b>, <b>shift-end-in countdown</b>, and an <b>alert line</b> that only appears when something is wrong (low battery, queued uploads, no GPS).</p>
+    <p class="note">Same coral pixel budget: the live dot. Tier label sits in the existing topbar chip ("wifi" / "geo" / "gps") and replaces "live" while punched in. Verification source becomes the caption under the timer. Alert line is hidden when everything's healthy. Click the topbar chip in <b>mid</b> state to cycle through tiers and see how the screen reacts.</p>
+  </div>
+
+  <div class="user-row">
+    <div class="ur-l">
+      <div class="ur-name">Sayantan Ghosh</div>
+      <div class="ur-sub">L2 Branch Manager · Liberty Infospace · Head Office</div>
+    </div>
+    <span class="ur-tag">+91 81004 66743</span>
+  </div>
+
+  <div class="demo-controls">
+    <span class="dc-label">Demo</span>
+    <span class="dc-group">
+      <span class="dc-key">state</span>
+      <button type="button" data-state-btn="pre">pre</button>
+      <button type="button" data-state-btn="mid">mid</button>
+      <button type="button" data-state-btn="post">post</button>
+    </span>
+    <span class="dc-group">
+      <span class="dc-key">tier (mid only)</span>
+      <button type="button" data-tier-btn="wifi">wifi</button>
+      <button type="button" data-tier-btn="geo">geo</button>
+      <button type="button" data-tier-btn="gps">gps</button>
+    </span>
+    <span class="dc-group">
+      <span class="dc-key">alert</span>
+      <button type="button" data-alert-btn="none" aria-current="page">none</button>
+      <button type="button" data-alert-btn="queued">queued</button>
+      <button type="button" data-alert-btn="battery">low battery</button>
+      <button type="button" data-alert-btn="gps">gps fail</button>
+    </span>
+  </div>
+
+  <div class="stage">
+    <div class="phone">
+      <div class="statusbar">
+        <span class="sb-time">9:08</span>
+        <span class="sb-r">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M5 12.55a11 11 0 0 1 14.08 0M1.42 9a16 16 0 0 1 21.16 0M8.53 16.11a6 6 0 0 1 6.95 0"/><circle cx="12" cy="20" r="1" fill="currentColor"/></svg>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="2" y="7" width="18" height="10" rx="2"/><line x1="22" y1="11" x2="22" y2="13"/><rect x="4" y="9" width="13" height="6" rx="1" fill="currentColor"/></svg>
+        </span>
+      </div>
+
+      <header class="topbar">
+        <div class="org">
+          <div class="org-co">Liberty Infospace</div>
+          <div class="org-br">Head Office</div>
+        </div>
+        <button class="state-link" id="stateChip" type="button">
+          <span class="lbl" id="stateChipLbl">pre</span>
+        </button>
+      </header>
+
+      <main class="body" id="body">
+        <!-- rendered by script.js -->
+      </main>
+
+      <nav class="tabs" aria-label="Bottom tabs">
+        <a class="tab"><svg><use href="#i-home"/></svg></a>
+        <a class="tab"><svg><use href="#i-work"/></svg></a>
+        <a class="tab active"><svg><use href="#i-punch"/></svg></a>
+        <a class="tab"><svg><use href="#i-chat"/></svg></a>
+        <a class="tab"><svg><use href="#i-me"/></svg></a>
+      </nav>
+
+      <div class="sheet-backdrop" id="sheetBg"></div>
+      <div class="sheet" id="sheet"></div>
+    </div>
+
+    <aside class="info">
+      <div>
+        <h2>What v20 adds over v19</h2>
+        <ul>
+          <li><b>Verification-source line.</b> Under the live timer: <code>via wi-fi · OfficeWiFi</code> / <code>via location</code> / <code>active tracking</code>.</li>
+          <li><b>Tier-aware topbar chip.</b> While punched in, the chip label flips from "live" to the actual tier — <code>wifi</code> · <code>geo</code> · <code>gps</code>. Coral dot stays.</li>
+          <li><b>Shift-end-in countdown.</b> Appears as a 4th cell in the numrow: <code>18:24 ends</code>. Replaces "Out" placeholder until you actually punch out.</li>
+          <li><b>Alert line.</b> Hairline mono text that appears only when something is off — low battery, queued uploads, GPS unavailable. Hidden by default.</li>
+        </ul>
+      </div>
+      <div>
+        <h2>The tier mapping</h2>
+        <ul>
+          <li><b>wifi (T1).</b> Device on approved office Wi-Fi (BSSID match). No GPS pings. Cheapest.</li>
+          <li><b>geo (T2).</b> Off Wi-Fi but inside office geofence (100m). No GPS pings.</li>
+          <li><b>gps (T3).</b> Off Wi-Fi, outside geofence. Continuous tracking, 10-min pings.</li>
+        </ul>
+      </div>
+      <div>
+        <h2>Colour budget (unchanged)</h2>
+        <ul>
+          <li>Coral <code>#DC4C3E</code>: live dot, "now" tick, punch CTA fill, scan line. Nothing else.</li>
+          <li>Alert line: <i>still monochrome</i>. Just text-2 mono. No yellow, no red. The text itself is the signal.</li>
+        </ul>
+      </div>
+      <div>
+        <h2>Default user (dev seed)</h2>
+        <ul>
+          <li><b>Name:</b> Sayantan Ghosh</li>
+          <li><b>Phone:</b> +91 81004 66743</li>
+          <li><b>Role:</b> L2 Branch Manager</li>
+          <li><b>Company:</b> Liberty Infospace</li>
+          <li><b>Branch:</b> Head Office</li>
+        </ul>
+      </div>
+    </aside>
+  </div>
+</div>
+
+<script src="script.js"></script>
+<script>
+(function(){
+  var KEY = 'v20-mode';
+  var saved = localStorage.getItem(KEY);
+  if (saved === null) saved = 'light';
+  if (saved === 'light') document.body.classList.add('light');
+  var btns = document.querySelectorAll('#modeSwitcher button');
+  function syncAria(){
+    btns.forEach(function(b){
+      if ((b.dataset.mode || '') === (document.body.classList.contains('light') ? 'light' : '')) {
+        b.setAttribute('aria-current','page');
+      } else {
+        b.removeAttribute('aria-current');
+      }
+    });
+  }
+  syncAria();
+  btns.forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var mode = btn.dataset.mode || '';
+      if (mode === 'light') document.body.classList.add('light');
+      else document.body.classList.remove('light');
+      localStorage.setItem(KEY, mode);
+      syncAria();
+    });
+  });
+})();
+</script>
+</body>
+</html>

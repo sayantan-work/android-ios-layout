@@ -1,0 +1,205 @@
+- generic [ref=e2]:
+  - navigation "Version switcher" [ref=e3]:
+    - generic [ref=e4]: Version
+    - link "v1" [ref=e5] [cursor=pointer]:
+      - /url: ../v1/index.html
+    - link "v2" [ref=e6] [cursor=pointer]:
+      - /url: ../v2/index.html
+    - link "v3" [ref=e7] [cursor=pointer]:
+      - /url: ../v3/index.html
+    - link "v4" [ref=e8] [cursor=pointer]:
+      - /url: ../v4/index.html
+    - link "v5" [ref=e9] [cursor=pointer]:
+      - /url: ../v5/index.html
+    - link "v6" [ref=e10] [cursor=pointer]:
+      - /url: ../v6/index.html
+    - link "v7" [ref=e11] [cursor=pointer]:
+      - /url: ../v7/index.html
+    - link "v8" [ref=e12] [cursor=pointer]:
+      - /url: ../v8/index.html
+    - link "v9" [ref=e13] [cursor=pointer]:
+      - /url: ../v9/index.html
+    - link "v10" [ref=e14] [cursor=pointer]:
+      - /url: ../v10/index.html
+    - link "v11" [ref=e15] [cursor=pointer]:
+      - /url: ../v11/index.html
+    - link "v12" [ref=e16] [cursor=pointer]:
+      - /url: ../v12/index.html
+    - link "v13" [ref=e17] [cursor=pointer]:
+      - /url: ../v13/index.html
+    - link "v14" [ref=e18] [cursor=pointer]:
+      - /url: ../v14/index.html
+    - link "v15" [ref=e19] [cursor=pointer]:
+      - /url: ../v15/index.html
+    - link "v16" [ref=e20] [cursor=pointer]:
+      - /url: ../v16/index.html
+    - link "v17" [ref=e21] [cursor=pointer]:
+      - /url: ../v17/index.html
+    - link "v18" [ref=e22] [cursor=pointer]:
+      - /url: ../v18/index.html
+    - link "v19" [ref=e23] [cursor=pointer]:
+      - /url: ../v19/index.html
+    - link "v20" [ref=e24] [cursor=pointer]:
+      - /url: ../v20/index.html
+    - link "v21" [ref=e25] [cursor=pointer]:
+      - /url: ../v21/index.html
+    - link "v22" [ref=e26] [cursor=pointer]:
+      - /url: ../v22/index.html
+  - generic [ref=e27]:
+    - heading "EasyDo 365 — iOS Skeleton" [level=1] [ref=e28]
+    - paragraph [ref=e29]: "Pick a persona, then click any tab in the bottom Tab Bar to switch. HRMS users get 5 tabs: Home · Workspace · Punch · Chat · Me. App Users (productivity-only) get 4 tabs: Home · Workspace · Chat · Me (no Punch)."
+    - generic [ref=e30]:
+      - generic [ref=e31]: 5 tabs (HRMS)
+      - generic [ref=e32]: 4 tabs (Productivity)
+      - generic [ref=e33]: Punch standalone
+      - generic [ref=e34]: Glassmorphism
+      - generic [ref=e35]: Tasks + Meet = Workspace
+  - navigation [ref=e36]:
+    - button "A App User Productivity-only · free · no employer" [ref=e37] [cursor=pointer]:
+      - generic [ref=e38]: A
+      - generic [ref=e39]:
+        - text: App User
+        - generic [ref=e40]: Productivity-only · free · no employer
+    - button "B HRMS Regular Employee / L3 Employee user · sees only themselves · branch read-only" [ref=e41] [cursor=pointer]:
+      - generic [ref=e42]: B
+      - generic [ref=e43]:
+        - text: HRMS Regular Employee / L3
+        - generic [ref=e44]: Employee user · sees only themselves · branch read-only
+    - button "D HRMS L2 — Branch Manager Manages a branch · branch chip interactive · can approve" [ref=e45] [cursor=pointer]:
+      - generic [ref=e46]: D
+      - generic [ref=e47]:
+        - text: HRMS L2 — Branch Manager
+        - generic [ref=e48]: Manages a branch · branch chip interactive · can approve
+    - button "E HRMS L1 — CEO / Top Mgmt Company-wide oversight · default scope All Branches" [ref=e49] [cursor=pointer]:
+      - generic [ref=e50]: E
+      - generic [ref=e51]:
+        - text: HRMS L1 — CEO / Top Mgmt
+        - generic [ref=e52]: Company-wide oversight · default scope All Branches
+  - generic [ref=e53]:
+    - generic [ref=e54]:
+      - generic [ref=e55]:
+        - generic [ref=e56]: E
+        - generic [ref=e57] [cursor=pointer]: EasyDo 365
+        - img [ref=e59] [cursor=pointer]
+      - generic [ref=e61]:
+        - heading "Good evening, Jordan" [level=1] [ref=e62]
+        - paragraph [ref=e63]: Thursday, 7 May 2026
+        - generic [ref=e64]:
+          - generic [ref=e65] [cursor=pointer]:
+            - img [ref=e67]
+            - generic [ref=e69]: New Task
+          - generic [ref=e70] [cursor=pointer]:
+            - img [ref=e72]
+            - generic [ref=e74]: New Meet
+          - generic [ref=e75] [cursor=pointer]:
+            - img [ref=e77]
+            - generic [ref=e79]: New Note
+          - generic [ref=e80] [cursor=pointer]:
+            - img [ref=e82]
+            - generic [ref=e84]: Reminder
+          - generic [ref=e85] [cursor=pointer]:
+            - img [ref=e87]
+            - generic [ref=e89]: My Drive
+          - generic [ref=e90] [cursor=pointer]:
+            - img [ref=e92]
+            - generic [ref=e94]: Calendar
+          - generic [ref=e95] [cursor=pointer]:
+            - img [ref=e97]
+            - generic [ref=e99]: Find
+          - generic [ref=e100] [cursor=pointer]:
+            - img [ref=e102]
+            - generic [ref=e104]: Upgrade
+        - generic [ref=e105]:
+          - heading "Today's Schedule" [level=2] [ref=e106]
+          - generic [ref=e107] [cursor=pointer]: View All ›
+        - generic [ref=e108]:
+          - generic [ref=e109]:
+            - text: 9:00
+            - text: AM
+          - generic [ref=e110]:
+            - img [ref=e112]
+            - generic [ref=e114]:
+              - generic [ref=e115]: Design Sync
+              - generic [ref=e116]: with Sukanta · 30 min
+        - generic [ref=e117]:
+          - generic [ref=e118]:
+            - text: 11:30
+            - text: AM
+          - generic [ref=e119]:
+            - img [ref=e121]
+            - generic [ref=e123]:
+              - generic [ref=e124]: Stress Test Report
+              - generic [ref=e125]: "Due today · #WORK"
+        - generic [ref=e126]:
+          - generic [ref=e127]:
+            - text: 2:00
+            - text: PM
+          - generic [ref=e128]:
+            - img [ref=e130]
+            - generic [ref=e132]:
+              - generic [ref=e133]: Liberty Kolkata Dev
+              - generic [ref=e134]: Group · 1 hour
+        - heading "Birthdays Today" [level=2] [ref=e136]
+        - generic [ref=e137]:
+          - generic [ref=e138]: RT
+          - generic [ref=e139]:
+            - generic [ref=e140]: Rounik Tarafder
+            - generic [ref=e141]: Send a wish 🎂
+          - generic [ref=e142]: Birthday
+      - generic [ref=e143]:
+        - button "Home" [ref=e144] [cursor=pointer]:
+          - img [ref=e145]
+          - generic [ref=e147]: Home
+        - button "Workspace" [ref=e148] [cursor=pointer]:
+          - img [ref=e149]
+          - generic [ref=e151]: Workspace
+        - button "Chat" [ref=e152] [cursor=pointer]:
+          - img [ref=e153]
+          - generic [ref=e155]: Chat
+        - button "Me" [ref=e156] [cursor=pointer]:
+          - img [ref=e157]
+          - generic [ref=e159]: Me
+    - complementary [ref=e160]:
+      - generic [ref=e161]:
+        - heading "Currently viewing" [level=3] [ref=e162]
+        - generic [ref=e163]:
+          - generic [ref=e164]: Persona
+          - generic [ref=e165]: App User
+        - generic [ref=e166]:
+          - generic [ref=e167]: Screen
+          - generic [ref=e168]: Home
+        - generic [ref=e169]:
+          - generic [ref=e170]: Default tab
+          - generic [ref=e171]: Home
+        - generic [ref=e172]:
+          - generic [ref=e173]: Tab count
+          - generic [ref=e174]: "4"
+      - generic [ref=e175]:
+        - heading "Tab Bar" [level=3] [ref=e176]
+        - generic [ref=e177]:
+          - generic [ref=e178]: "1"
+          - generic [ref=e179]: Home (default)
+        - generic [ref=e180]:
+          - generic [ref=e181]: "2"
+          - generic [ref=e182]: Workspace
+        - generic [ref=e183]:
+          - generic [ref=e184]: "3"
+          - generic [ref=e185]: Chat
+        - generic [ref=e186]:
+          - generic [ref=e187]: "4"
+          - generic [ref=e188]: Me
+        - paragraph [ref=e189]: 4 tabs · No Punch (productivity-only)
+      - generic [ref=e190]:
+        - heading "Nav Bar (top)" [level=3] [ref=e191]
+        - paragraph [ref=e192]: EasyDo brand + Bell. No company/branch chip for productivity-only users.
+      - generic [ref=e193]:
+        - heading "Module access" [level=3] [ref=e194]
+        - paragraph [ref=e195]:
+          - generic [ref=e196]: Productivity
+        - paragraph [ref=e197]: No company affiliation. No Punch tab. Tasks + Meet inside Workspace.
+      - generic [ref=e198]:
+        - heading "How to navigate" [level=3] [ref=e199]
+        - paragraph [ref=e200]:
+          - text: • Click any tab in the bottom Tab Bar to switch.
+          - text: • Me tab = profile + productivity tools (Notes, Drive, Reminders).
+          - text: • Switch personas above to compare.

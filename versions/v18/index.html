@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>EasyDo 365 — v18 (Stacks)</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<!-- ── Line icons (Lucide-style stroke icons) ── -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="i-home"     viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12l9-9 9 9"/><path d="M5 10v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V10"/></symbol>
+    <symbol id="i-work"     viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></symbol>
+    <symbol id="i-chat"     viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></symbol>
+    <symbol id="i-me"       viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></symbol>
+    <symbol id="i-bell"     viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></symbol>
+    <symbol id="i-chev-d"   viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></symbol>
+    <symbol id="i-chev-r"   viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></symbol>
+    <symbol id="i-check"    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></symbol>
+    <symbol id="i-close"    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></symbol>
+    <symbol id="i-pin"      viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></symbol>
+    <symbol id="i-clock"    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></symbol>
+    <symbol id="i-coffee"   viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4z"/><line x1="6" y1="2" x2="6" y2="4"/><line x1="10" y1="2" x2="10" y2="4"/><line x1="14" y1="2" x2="14" y2="4"/></symbol>
+    <symbol id="i-zap"      viewBox="0 0 24 24" fill="currentColor"><path d="M13.6 2.2L4.6 12.7a.9.9 0 0 0 .7 1.5h4.9l-.95 7.2a.5.5 0 0 0 .89.4l9.05-11.05a.9.9 0 0 0-.7-1.45h-4.85l1-6.4a.5.5 0 0 0-.94-.3z"/></symbol>
+    <symbol id="i-arrow-r"  viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></symbol>
+    <symbol id="i-stop"     viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="6" width="12" height="12" rx="2"/></symbol>
+    <symbol id="i-sun"      viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></symbol>
+    <symbol id="i-moon"     viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></symbol>
+    <symbol id="i-user"     viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></symbol>
+    <symbol id="i-cal"      viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></symbol>
+    <symbol id="i-flame"    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 17c1.38 0 2.5-1.12 2.5-2.5 0-1.05-.68-1.95-1.5-2.5 2-2 1-4-1-5 .5 2.5-1.5 3-2.5 4-1.5 1.5-1.5 4 0 5.5"/><path d="M12 2c1 4 4 5 4 10a6 6 0 0 1-12 0c0-4 3-7 4-10 .5 1.5 2 2 4 0z"/></symbol>
+  </defs>
+</svg>
+
+<div class="page">
+
+  <nav aria-label="Version switcher" class="vsw">
+    <span class="vlabel">Version</span>
+    <a href="../v1/index.html">v1</a> <a href="../v2/index.html">v2</a> <a href="../v3/index.html">v3</a> <a href="../v4/index.html">v4</a> <a href="../v5/index.html">v5</a> <a href="../v6/index.html">v6</a> <a href="../v7/index.html">v7</a> <a href="../v8/index.html">v8</a> <a href="../v9/index.html">v9</a> <a href="../v10/index.html">v10</a> <a href="../v11/index.html">v11</a> <a href="../v12/index.html">v12</a> <a href="../v13/index.html">v13</a> <a href="../v14/index.html">v14</a> <a href="../v15/index.html">v15</a> <a href="../v16/index.html">v16</a> <a href="../v17/index.html">v17</a> <a href="../v18/index.html" aria-current="page">v18</a> <a href="../v19/index.html">v19</a> <a href="../v20/index.html">v20</a> <a href="../v21/index.html">v21</a> <a href="../v22/index.html">v22</a>
+  </nav>
+
+  <nav aria-label="Light/dark mode" class="msw" id="modeSwitcher">
+    <span class="mlabel">Mode</span>
+    <button type="button" data-mode="">Dark</button>
+    <button type="button" data-mode="light">Light</button>
+  </nav>
+
+  <div class="page-h">
+    <h1>EasyDo 365 — v18 (Stacks)</h1>
+    <p>The first iteration that's <b>only the punch page</b>, fully fledged across 4 states. v1–v17 had one giant circle with the time in it; v18 ships a <b>stack of modular squircle tiles</b> — hero · location · hours ring · timeline · team · up-next — where the hero tile morphs by state (pre-punch CTA → live timer → day summary). Lineage: iOS widget gallery × Apple Sports × Apple Watch Modular face × Arc Search cards.</p>
+    <p class="note">Single accent is warm coral <code>#FF6B35</code> — untouched in v1–v17 (every prior version used violet, cobalt, red, amber, or emerald). Tiles are 28px radius (vs v17's 14px), flat surfaces with 1px hairline + inner top highlight. Hero tile gets a soft coral glow when state-active. Cycle states with the <kbd>STATE</kbd> chip in the prototype.</p>
+  </div>
+
+  <div class="user-row">
+    <div class="ur-l">
+      <div class="ur-name">Sayantan Ghosh</div>
+      <div class="ur-sub">L2 Branch Manager · Liberty Infospace · Head Office</div>
+    </div>
+    <span class="ur-tag">single identity · no switcher</span>
+  </div>
+
+  <div class="stage">
+    <div class="phone">
+      <div class="statusbar">
+        <span class="sb-time">9:08</span>
+        <span class="sb-r">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 12.55a11 11 0 0 1 14.08 0M1.42 9a16 16 0 0 1 21.16 0M8.53 16.11a6 6 0 0 1 6.95 0"/><circle cx="12" cy="20" r="1" fill="currentColor"/></svg>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="2" y="7" width="18" height="10" rx="2"/><line x1="22" y1="11" x2="22" y2="13"/><rect x="4" y="9" width="13" height="6" rx="1" fill="currentColor"/></svg>
+        </span>
+      </div>
+
+      <div class="nav">
+        <div class="nav-switcher">
+          <div class="ns-logo">L</div>
+          <div class="ns-l">
+            <div class="ns-co">Liberty Infospace</div>
+            <div class="ns-br"><svg><use href="#i-pin"/></svg> Head Office, Ahmedabad</div>
+          </div>
+          <span class="ns-caret"><svg><use href="#i-chev-d"/></svg></span>
+        </div>
+        <button class="nav-state-chip" id="stateChip" type="button" title="Cycle prototype state">
+          <span class="dot"></span>
+          <span class="lbl" id="stateChipLbl">PRE</span>
+        </button>
+        <button class="nav-bell" type="button">
+          <svg><use href="#i-bell"/></svg>
+          <span class="nav-bell-badge">3</span>
+        </button>
+      </div>
+
+      <div class="body" id="body">
+        <!-- Rendered by script.js based on current state -->
+      </div>
+
+      <div class="tabs">
+        <div class="tab"><svg><use href="#i-home"/></svg><span>Home</span></div>
+        <div class="tab"><svg><use href="#i-work"/></svg><span>Workspace</span></div>
+        <div class="tab punch-tab active">
+          <svg><use href="#i-zap"/></svg><span>Punch</span>
+        </div>
+        <div class="tab"><svg><use href="#i-chat"/></svg><span>Chats</span></div>
+        <div class="tab"><svg><use href="#i-me"/></svg><span>Me</span></div>
+      </div>
+
+      <div class="sheet-backdrop" id="sheetBg"></div>
+      <div class="sheet" id="sheet"></div>
+      <div class="toast" id="toast"></div>
+    </div>
+
+    <aside class="info">
+      <div>
+        <h2>v18 hero idea</h2>
+        <ul>
+          <li><b>One screen, four states.</b> Hero morphs: CTA → live timer → day summary.</li>
+          <li><b>Stack of tiles</b>, not one big circle. Widget-gallery vocabulary.</li>
+          <li><b>Coral primary</b> — first v1–v18 version to use coral as brand accent.</li>
+        </ul>
+      </div>
+      <div>
+        <h2>The 6 tiles</h2>
+        <ul>
+          <li><b>Hero</b> — primary state, big number, primary action.</li>
+          <li><b>Location</b> — mini-map + geofence status.</li>
+          <li><b>Hours ring</b> — progress vs target, break segments.</li>
+          <li><b>Today's timeline</b> — horizontal scrubber 09:00 → 18:00.</li>
+          <li><b>Team</b> — who's in, who's on leave.</li>
+          <li><b>Up next</b> — meeting, lunch, branch close.</li>
+        </ul>
+      </div>
+      <div>
+        <h2>State recipe</h2>
+        <ul>
+          <li><kbd>PRE</kbd> · coral "Punch In" CTA, empty ring, planned shift highlight.</li>
+          <li><kbd>MOMENT</kbd> · sheet with face capture + geofence confirm.</li>
+          <li><kbd>MID</kbd> · live HH:MM:SS timer (counts up every second), break/punch-out actions.</li>
+          <li><kbd>POST</kbd> · emerald check, total + overtime breakdown, regularize action.</li>
+        </ul>
+      </div>
+      <div>
+        <h2>Tile shape</h2>
+        <ul>
+          <li>28px radius (vs v17's 14px) — squircle vocabulary.</li>
+          <li>1px hairline border <code>rgba(255,255,255,0.06)</code>.</li>
+          <li>Inner top highlight 1px <code>rgba(255,255,255,0.04)</code> — depth without shadow.</li>
+          <li>Hero only: coral outer glow when state-active.</li>
+        </ul>
+      </div>
+      <div>
+        <h2>Carries from v17</h2>
+        <ul>
+          <li>5-tab IA, single identity, permission model.</li>
+          <li>Light/dark toggle (key: <code>v18-mode</code>).</li>
+          <li>Status bar + org chip + bell header.</li>
+        </ul>
+      </div>
+    </aside>
+  </div>
+</div>
+
+<script src="script.js"></script>
+<script>
+(function(){
+  var KEY = 'v18-mode';
+  var saved = localStorage.getItem(KEY) || '';
+  if (saved === 'light') document.body.classList.add('light');
+  var btns = document.querySelectorAll('#modeSwitcher button');
+  function syncAria(){
+    btns.forEach(function(b){
+      if ((b.dataset.mode || '') === (document.body.classList.contains('light') ? 'light' : '')) {
+        b.setAttribute('aria-current','page');
+      } else {
+        b.removeAttribute('aria-current');
+      }
+    });
+  }
+  syncAria();
+  btns.forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var mode = btn.dataset.mode || '';
+      if (mode === 'light') document.body.classList.add('light');
+      else document.body.classList.remove('light');
+      localStorage.setItem(KEY, mode);
+      syncAria();
+    });
+  });
+})();
+</script>
+</body>
+</html>

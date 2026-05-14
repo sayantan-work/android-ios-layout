@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>EasyDo 365 — v13 (Tiffin)</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<!-- ── Line icons (Lucide-style stroke icons) ── -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <!-- Tab + nav -->
+    <symbol id="i-today"    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2.5"/><path d="M16 2v4M8 2v4M3 10h18"/></symbol>
+    <symbol id="i-tasks"    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3 8-8"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></symbol>
+    <symbol id="i-chat"     viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></symbol>
+    <symbol id="i-team"     viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></symbol>
+    <symbol id="i-me"       viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></symbol>
+    <symbol id="i-bell"     viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></symbol>
+    <symbol id="i-burger"   viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M3 12h18M3 18h18"/></symbol>
+    <symbol id="i-back"     viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></symbol>
+    <symbol id="i-chev-r"   viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></symbol>
+    <symbol id="i-close"    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></symbol>
+    <symbol id="i-check"    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></symbol>
+    <symbol id="i-plus"     viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></symbol>
+    <!-- Domain -->
+    <symbol id="i-leave"    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19.8 2c1 5 .5 10.5-2.8 14a7 7 0 0 1-6 4z"/><path d="M2 21c0-3 1.85-5.36 5.08-6"/></symbol>
+    <symbol id="i-lock"     viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></symbol>
+    <symbol id="i-approve"  viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></symbol>
+    <symbol id="i-pulse"    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></symbol>
+    <symbol id="i-doc"      viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></symbol>
+    <symbol id="i-rupee"    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h12M6 8h12M6 13l9 9M6 13c8.5 0 8.5-10 0-10"/></symbol>
+    <symbol id="i-cal"      viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></symbol>
+    <symbol id="i-gear"     viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.6 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.6a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09A1.65 1.65 0 0 0 15 4.6a1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></symbol>
+    <symbol id="i-clock"    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></symbol>
+    <symbol id="i-mention"  viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M16 8v5a3 3 0 0 0 6 0v-1a10 10 0 1 0-4 8"/></symbol>
+    <symbol id="i-pin"      viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></symbol>
+    <symbol id="i-search"   viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></symbol>
+    <symbol id="i-chev-d"   viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></symbol>
+    <symbol id="i-flag"     viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></symbol>
+    <symbol id="i-sparkle"  viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l2 7 7 2-7 2-2 7-2-7-7-2 7-2z"/></symbol>
+    <symbol id="i-punch"    viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="0.4" stroke-linejoin="round"><path d="M13.6 2.2L4.6 12.7a.9.9 0 0 0 .7 1.5h4.9l-.95 7.2a.5.5 0 0 0 .89.4l9.05-11.05a.9.9 0 0 0-.7-1.45h-4.85l1-6.4a.5.5 0 0 0-.94-0.3z"/></symbol>
+    <symbol id="i-home"     viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12l9-9 9 9"/><path d="M5 10v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V10"/></symbol>
+    <symbol id="i-work"     viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></symbol>
+    <symbol id="i-bldg"     viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="2" width="16" height="20" rx="2"/><path d="M9 22v-4h6v4M8 6h.01M16 6h.01M12 6h.01M12 10h.01M12 14h.01M16 10h.01M16 14h.01M8 10h.01M8 14h.01"/></symbol>
+    <!-- Status icons -->
+    <symbol id="i-wifi"     viewBox="0 0 24 24" fill="currentColor"><path d="M5 12.55a11 11 0 0 1 14.08 0"/><path d="M1.42 9a16 16 0 0 1 21.16 0"/><path d="M8.53 16.11a6 6 0 0 1 6.95 0"/><circle cx="12" cy="20" r="1"/></symbol>
+    <symbol id="i-battery"  viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="18" height="10" rx="2"/><line x1="22" y1="11" x2="22" y2="13"/><rect x="4" y="9" width="13" height="6" rx="1" fill="currentColor"/></symbol>
+  </defs>
+</svg>
+
+<div class="page">
+
+  <nav aria-label="Version switcher" class="vsw">
+    <span class="vlabel">Version</span>
+    <a href="../v1/index.html">v1</a> <a href="../v2/index.html">v2</a> <a href="../v3/index.html">v3</a> <a href="../v4/index.html">v4</a> <a href="../v5/index.html">v5</a> <a href="../v6/index.html">v6</a> <a href="../v7/index.html">v7</a> <a href="../v8/index.html">v8</a> <a href="../v9/index.html">v9</a> <a href="../v10/index.html">v10</a> <a href="../v11/index.html">v11</a> <a href="../v12/index.html">v12</a> <a href="../v13/index.html" aria-current="page">v13</a> <a href="../v14/index.html">v14</a> <a href="../v15/index.html">v15</a> <a href="../v16/index.html">v16</a> <a href="../v17/index.html">v17</a> <a href="../v18/index.html">v18</a> <a href="../v19/index.html">v19</a> <a href="../v20/index.html">v20</a> <a href="../v21/index.html">v21</a> <a href="../v22/index.html">v22</a>
+  </nav>
+
+  <div class="page-h">
+    <h1>EasyDo 365 — v13 (Tiffin)</h1>
+    <p>Indian consumer-app energy applied to HRMS. Pulled from <b>Swiggy</b> (green), <b>Zomato</b> (red), <b>Zepto</b> (pink), <b>Cult.fit</b> (orange) — structurally referenced against the <b>FoodDash</b> design system on <a href="https://designmd.ai/chef/fooddash" target="_blank">designmd.ai</a>. Where v11/v12 said "banking trust + tech precision," v13 says <b>speed, scannability, fun.</b> Multi-color hierarchy where color *is* the information.</p>
+    <p class="note">Brand <b>red `#E23744`</b> for CTAs + punch action. <b>Multi-color soft-fill chips</b> (green=present, amber=late, red=absent, sky=info, pink=AI) — Swiggy delivery-state language applied to HRMS surfaces. Bigger pill FAB-style tab button, saturated gradient home strip, violet→pink gradient avatar. Tap the white circle to invert to solid red — looks like "Order Now" except for attendance.</p>
+  </div>
+
+  <div class="user-row">
+    <div class="ur-l">
+      <div class="ur-name">Sayantan Ghosh</div>
+      <div class="ur-sub">L2 Branch Manager · Liberty Infospace · Head Office</div>
+    </div>
+    <span class="ur-tag">single identity · no switcher</span>
+  </div>
+
+  <div class="stage">
+    <div class="phone">
+      <div class="statusbar">
+        <span>9:08</span>
+        <span class="sb-r">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M5 12.55a11 11 0 0 1 14.08 0M1.42 9a16 16 0 0 1 21.16 0M8.53 16.11a6 6 0 0 1 6.95 0" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/></svg>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="2" y="7" width="18" height="10" rx="2"/><line x1="22" y1="11" x2="22" y2="13"/><rect x="4" y="9" width="11" height="6" rx="1" fill="currentColor"/></svg>
+        </span>
+      </div>
+      <div class="nav" id="nav"></div>
+      <div class="body" id="body"></div>
+      <div class="tabs" id="tabs"></div>
+      <div class="sheet-backdrop" id="sheetBg"></div>
+      <div class="sheet" id="sheet"></div>
+      <div class="toast" id="toast"></div>
+    </div>
+
+    <aside class="info">
+      <div>
+        <h2>v13 hero idea</h2>
+        <ul>
+          <li>Multi-color hierarchy — color carries meaning (vs v11/v12 monochrome).</li>
+          <li>Punch tab is a proper Zomato-style <b>FAB</b> — red fill, colored shadow.</li>
+          <li>Status chips use Swiggy delivery-state language (green / amber / red / sky).</li>
+        </ul>
+      </div>
+      <div>
+        <h2>From the consumer canon</h2>
+        <ul>
+          <li><b>Swiggy</b> — green for delivered/present, multi-color hierarchy.</li>
+          <li><b>Zomato</b> — red CTAs, pill buttons, scannable cards.</li>
+          <li><b>Zepto</b> — hot pink moments, big chunky typography.</li>
+          <li><b>Cult.fit</b> — orange energy, bold lifestyle-brand feel.</li>
+        </ul>
+      </div>
+      <div>
+        <h2>Designmd reference</h2>
+        <ul>
+          <li><a href="https://designmd.ai/chef/fooddash" target="_blank">FoodDash</a> — the explicit Swiggy/Zomato community design system.</li>
+          <li>Pulled via the designmd MCP. Borrowed its color philosophy, applied to HRMS surfaces.</li>
+        </ul>
+      </div>
+      <div>
+        <h2>What still carries</h2>
+        <ul>
+          <li>5-tab IA + permission model (v7 lineage, intact).</li>
+          <li>Attendance as a hairline logbook (v12 lineage, restyled).</li>
+          <li>Dedicated announcements screen (v12 fix carried forward).</li>
+        </ul>
+      </div>
+    </aside>
+  </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
