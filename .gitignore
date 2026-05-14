@@ -1,3 +1,10 @@
 .DS_Store
 Thumbs.db
 *.log
+
+# Playwright/MCP snapshots — generated during local verification, not source.
+.playwright-mcp/
+
+# Loose verification screenshots at versions/ root (e.g. versions/v22-home.png).
+# Files inside actual version folders (versions/v22/*.png) are still tracked.
+versions/v*-*.png
