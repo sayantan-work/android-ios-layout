@@ -18,7 +18,7 @@ const ROLES = {
     autoScope: 'company',
     accent: 'navy',
     perms: { approve: true, payroll: true, transfer: true, admin: true, hr: true, punch: true },
-    tabs: ['home', 'approvals', 'punch', 'chats', 'office'],
+    tabs: ['home', 'workspace', 'punch', 'chats', 'office'],
     defaultTab: 'home',
   },
   admin: {
@@ -28,7 +28,7 @@ const ROLES = {
     autoScope: 'company',
     accent: 'plum',
     perms: { approve: true, payroll: true, transfer: false, admin: true, hr: true, punch: true },
-    tabs: ['home', 'approvals', 'punch', 'chats', 'office'],
+    tabs: ['home', 'workspace', 'punch', 'chats', 'office'],
     defaultTab: 'home',
   },
   manager: {
@@ -38,7 +38,7 @@ const ROLES = {
     autoScope: 'branch',
     accent: 'teal',
     perms: { approve: true, payroll: false, transfer: false, admin: false, hr: false, punch: true },
-    tabs: ['home', 'branch', 'punch', 'chats', 'office'],
+    tabs: ['home', 'workspace', 'punch', 'chats', 'office'],
     defaultTab: 'home',
   },
   team_lead: {
@@ -48,7 +48,7 @@ const ROLES = {
     autoScope: 'dept',
     accent: 'olive',
     perms: { approve: true, payroll: false, transfer: false, admin: false, hr: false, punch: true, viewTeamSalary: true },
-    tabs: ['home', 'team', 'punch', 'chats', 'office'],
+    tabs: ['home', 'workspace', 'punch', 'chats', 'office'],
     defaultTab: 'home',
   },
   employee: {
@@ -735,6 +735,17 @@ function approvalsScope(r) {
   }
 }
 
+
+function approvalsBlock(roleId) {
+  const items = approvalsFor(roleId);
+  if (items.length === 0) return '';
+  return `
+  <header class="section-head"><span class="sh-label">Awaiting you</span><span class="sh-count">${items.length}</span></header>
+  <ul class="approval-list">
+    ${items.slice(0, 5).map(approvalRow).join('')}
+  </ul>`;
+}
+
 function approvalRow(item) {
   const iconMap = { leave: 'i-airplane', expense: 'i-rupee', onboarding: 'i-badge-plus' };
   const tone = item.urgent ? 'urgent' : '';
@@ -1267,6 +1278,8 @@ function teamSummaryOwner() {
     </div>
   </section>
 
+  ${approvalsBlock('owner')}
+
   <header class="section-head"><span class="sh-label">Branches</span><span class="sh-count">5</span></header>
   <ul class="list">
     ${listRow('i-building',  'Mumbai HO',    '312 employees · 287 in today · 92%')}
@@ -1315,6 +1328,8 @@ function teamSummaryAdmin() {
     </div>
   </section>
 
+  ${approvalsBlock('admin')}
+
   <header class="section-head"><span class="sh-label">Onboarding · in progress</span><span class="sh-count">8</span></header>
   <ul class="list">
     ${listRow('i-person',  'Nishant Kohli',     'Appointment letter ready · review')}
@@ -1362,6 +1377,8 @@ function teamSummaryManager() {
     </div>
   </section>
 
+  ${approvalsBlock('manager')}
+
   <header class="section-head"><span class="sh-label">Departments in this branch</span></header>
   <ul class="list">
     ${listRow('i-team',     'Engineering',    '14 size · 12 in · 1 late · 1 leave')}
@@ -1407,6 +1424,8 @@ function teamSummaryTeamLead() {
       </div>
     </div>
   </section>
+
+  ${approvalsBlock('team_lead')}
 
   <header class="section-head"><span class="sh-label">Salary range · Engineering</span></header>
   <section class="salary-card">
