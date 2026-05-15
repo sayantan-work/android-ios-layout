@@ -18,7 +18,7 @@ const ROLES = {
     autoScope: 'company',
     accent: 'navy',
     perms: { approve: true, payroll: true, transfer: true, admin: true, hr: true, punch: true },
-    tabs: ['home', 'approvals', 'office', 'chats', 'me'],
+    tabs: ['home', 'approvals', 'punch', 'chats', 'office'],
     defaultTab: 'home',
   },
   admin: {
@@ -28,7 +28,7 @@ const ROLES = {
     autoScope: 'company',
     accent: 'plum',
     perms: { approve: true, payroll: true, transfer: false, admin: true, hr: true, punch: true },
-    tabs: ['home', 'approvals', 'office', 'chats', 'me'],
+    tabs: ['home', 'approvals', 'punch', 'chats', 'office'],
     defaultTab: 'home',
   },
   manager: {
@@ -38,7 +38,7 @@ const ROLES = {
     autoScope: 'branch',
     accent: 'teal',
     perms: { approve: true, payroll: false, transfer: false, admin: false, hr: false, punch: true },
-    tabs: ['home', 'branch', 'punch', 'chats', 'me'],
+    tabs: ['home', 'branch', 'punch', 'chats', 'office'],
     defaultTab: 'home',
   },
   team_lead: {
@@ -48,7 +48,7 @@ const ROLES = {
     autoScope: 'dept',
     accent: 'olive',
     perms: { approve: true, payroll: false, transfer: false, admin: false, hr: false, punch: true, viewTeamSalary: true },
-    tabs: ['home', 'team', 'punch', 'chats', 'me'],
+    tabs: ['home', 'team', 'punch', 'chats', 'office'],
     defaultTab: 'home',
   },
   employee: {
@@ -58,7 +58,7 @@ const ROLES = {
     autoScope: 'self',
     accent: 'coral',
     perms: { approve: false, payroll: false, transfer: false, admin: false, hr: false, punch: true },
-    tabs: ['home', 'workspace', 'punch', 'chats', 'me'],
+    tabs: ['home', 'workspace', 'punch', 'chats', 'office'],
     defaultTab: 'punch',
   },
   member: {
@@ -68,7 +68,7 @@ const ROLES = {
     autoScope: 'self',
     accent: 'amber',
     perms: { approve: false, payroll: false, transfer: false, admin: false, hr: false, punch: false },
-    tabs: ['home', 'onboarding', 'chats', 'me'],
+    tabs: ['home', 'onboarding', 'chats', 'office'],
     defaultTab: 'home',
   },
 };
@@ -567,7 +567,6 @@ function renderNonHomeTab(tabId) {
     case 'onboarding': return onboardingTab();
     case 'punch':      return punchTab();
     case 'chats':      return chatsTab();
-    case 'me':         return meTab();
     default:           return placeholderTab(tabId);
   }
 }
@@ -765,79 +764,6 @@ function chip(id, label, count, active = false) {
       <span class="chip-label">${label}</span>
       ${count > 0 ? `<span class="chip-count">${count}</span>` : ''}
     </button>`;
-}
-
-/* OFFICE — owner & admin · Self/Manage segmented control */
-function officeTab() {
-  const isManage = state.officeMode === 'manage';
-  return `
-  <div class="tab-h">
-    <h2 class="th-title">Office</h2>
-  </div>
-
-  <div class="segmented" role="tablist">
-    <button class="seg-opt ${!isManage ? 'active' : ''}" data-office="self"   type="button" role="tab" aria-selected="${!isManage}">Self</button>
-    <button class="seg-opt ${ isManage ? 'active' : ''}" data-office="manage" type="button" role="tab" aria-selected="${isManage}">Manage</button>
-  </div>
-
-  ${isManage ? officeManage() : officeSelf()}
-  `;
-}
-
-function officeSelf() {
-  const r = role();
-  return `
-  <section class="self-card">
-    <div class="sc-row">
-      <span class="sc-avatar">${r.identity.initials}</span>
-      <div class="sc-id">
-        <div class="sc-name">${r.identity.name}</div>
-        <div class="sc-meta">${r.identity.role}</div>
-      </div>
-    </div>
-  </section>
-
-  <header class="section-head"><span class="sh-label">My records</span></header>
-  <ul class="list">
-    ${listRow('i-creditcard', 'Payslip · Sep 2026',     '₹98,400 net · view PDF')}
-    ${listRow('i-airplane',   'Leave balance',          '10 days remaining · 2 used')}
-    ${listRow('i-clock',      'Attendance · this month','21 days · 0 missing · 1 late')}
-    ${listRow('i-doc',        'My documents',           'Aadhaar · PAN · Education · Bank')}
-  </ul>
-
-  <header class="section-head"><span class="sh-label">Preferences</span></header>
-  <ul class="list">
-    ${listRow('i-bell',  'Notifications', 'On · push · email digest')}
-    ${listRow('i-gear',  'App settings',  'Theme, language, units')}
-  </ul>
-  `;
-}
-
-function officeManage() {
-  const r = role();
-  return `
-  <header class="section-head"><span class="sh-label">Company</span></header>
-  <ul class="list">
-    ${listRow('i-buildings', 'Branches',           '5 active · 1 expansion')}
-    ${listRow('i-people',    'Employees',          '847 · 8 onboarding')}
-    ${listRow('i-team',      'Departments',        '12 · 14 team leads')}
-    ${listRow('i-shield-check','Roles & permissions','9 system · 3 custom')}
-  </ul>
-
-  <header class="section-head"><span class="sh-label">Cycles</span></header>
-  <ul class="list">
-    ${listRow('i-rupee',     'Payroll',            'Oct cycle · ₹3.2L preview')}
-    ${listRow('i-calendar',  'Holidays',           '14 set for 2026')}
-    ${listRow('i-clock',     'Shift policies',     '3 active · weekly off ruleset')}
-  </ul>
-
-  ${r.perms.transfer ? `
-  <header class="section-head"><span class="sh-label">Owner-only</span></header>
-  <ul class="list">
-    ${listRow('i-arrow-up-r', 'Transfer ownership', 'Permanent · 2-step auth')}
-    ${listRow('i-close',      'Delete company',     'Irreversible')}
-  </ul>` : ''}
-  `;
 }
 
 function listRow(icon, title, sub) {
@@ -1250,8 +1176,8 @@ function chatScopeLabel() {
   }
 }
 
-/* ME — all roles · Me/My Team segmented for team-scoped roles */
-function meTab() {
+/* OFFICE — all roles · Me/My Team segmented for team-scoped roles · v22 IA: Me lives here, not in the bottom bar */
+function officeTab() {
   const r = role();
   const canManage = r.perms.approve;        // Owner/Admin/Manager/Team Lead have someone to manage
   const isTeam = canManage && state.meMode === 'team';
