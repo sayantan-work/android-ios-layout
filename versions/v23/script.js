@@ -91,6 +91,7 @@ const TAB_META = {
 const state = {
   roleId: 'owner',
   tab: 'home',
+  meMode: 'me',                // Me tab segmented: 'me' | 'team' (only visible for team-scoped roles)
   officeMode: 'self',          // Office tab segmented: 'self' | 'manage'
   chatFilter: 'all',           // Chats tab: 'all' | 'unread' | 'groups' | 'mentions'
   workspaceFilter: 'tasks',    // Workspace tab: 'tasks' | 'meets' | 'delegated' | 'reminders'
@@ -143,6 +144,7 @@ function setRole(id) {
   // Demo always lands on Home so the role-distinct hero is what viewers see.
   // Production app would honour ROLES[id].defaultTab.
   state.tab = 'home';
+  state.meMode = 'me';
   state.officeMode = 'self';
   state.chatFilter = 'all';
   state.workspaceFilter = 'tasks';
@@ -1248,8 +1250,22 @@ function chatScopeLabel() {
   }
 }
 
-/* ME — all roles */
+/* ME — all roles · Me/My Team segmented for team-scoped roles */
 function meTab() {
+  const r = role();
+  const canManage = r.perms.approve;        // Owner/Admin/Manager/Team Lead have someone to manage
+  const isTeam = canManage && state.meMode === 'team';
+
+  const header = canManage ? `
+    <div class="segmented" role="tablist">
+      <button class="seg-opt ${!isTeam ? 'active' : ''}" data-me="me"   type="button" role="tab" aria-selected="${!isTeam}">Me</button>
+      <button class="seg-opt ${ isTeam ? 'active' : ''}" data-me="team" type="button" role="tab" aria-selected="${isTeam}">My Team</button>
+    </div>` : '';
+
+  return `${header}${isTeam ? myTeamView() : myMeView()}`;
+}
+
+function myMeView() {
   const r = role();
   return `
   <section class="me-card">
@@ -1287,7 +1303,205 @@ function meTab() {
   `;
 }
 
+function myTeamView() {
+  switch (state.roleId) {
+    case 'owner':     return teamSummaryOwner();
+    case 'admin':     return teamSummaryAdmin();
+    case 'manager':   return teamSummaryManager();
+    case 'team_lead': return teamSummaryTeamLead();
+    default:          return '';
+  }
+}
+
+function teamSummaryOwner() {
+  return `
+  <section class="team-summary-h">
+    <div class="tsh-eyebrow">Company at a glance · ${todayStr()}</div>
+    <div class="metric-strip">
+      <div class="metric">
+        <span class="m-icon">${I('i-buildings')}</span>
+        <span class="m-val">5</span>
+        <span class="m-lbl">branches</span>
+      </div>
+      <div class="metric">
+        <span class="m-icon">${I('i-people')}</span>
+        <span class="m-val">847</span>
+        <span class="m-lbl">employees</span>
+      </div>
+      <div class="metric">
+        <span class="m-icon">${I('i-team')}</span>
+        <span class="m-val">12</span>
+        <span class="m-lbl">departments</span>
+      </div>
+      <div class="metric">
+        <span class="m-icon">${I('i-badge-plus')}</span>
+        <span class="m-val">8</span>
+        <span class="m-lbl">onboarding</span>
+      </div>
+    </div>
+  </section>
+
+  <header class="section-head"><span class="sh-label">Branches</span><span class="sh-count">5</span></header>
+  <ul class="list">
+    ${listRow('i-building',  'Mumbai HO',    '312 employees · 287 in today · 92%')}
+    ${listRow('i-building',  'Delhi NCR',    '187 employees · 169 in · 90%')}
+    ${listRow('i-building',  'Bangalore',    '203 employees · 198 in · 97%')}
+    ${listRow('i-building',  'Pune',         '94 employees · 81 in · 86%')}
+    ${listRow('i-building',  'Kolkata',      '51 employees · 38 in · 75% ⚠')}
+  </ul>
+
+  <header class="section-head"><span class="sh-label">This week</span></header>
+  <ul class="list">
+    ${listRow('i-badge-plus','3 new hires',     'Nishant Kohli · Priya Vora · Aditya Sharma')}
+    ${listRow('i-arrow-up-r','1 promotion',     'Naina Joshi → SDE 3 · Mumbai')}
+    ${listRow('i-airplane',  '12 leave requests', 'All resolved · 0 pending')}
+  </ul>
+
+  <p class="hint-cta">Open <b>Office</b> tab for full company management.</p>
+  `;
+}
+
+function teamSummaryAdmin() {
+  return `
+  <section class="team-summary-h">
+    <div class="tsh-eyebrow">HR snapshot · ${todayStr()}</div>
+    <div class="metric-strip">
+      <div class="metric">
+        <span class="m-icon">${I('i-badge-plus')}</span>
+        <span class="m-val">8</span>
+        <span class="m-lbl">new hires</span>
+      </div>
+      <div class="metric urgent">
+        <span class="m-icon">${I('i-doc')}</span>
+        <span class="m-val">12</span>
+        <span class="m-lbl">docs to review</span>
+      </div>
+      <div class="metric">
+        <span class="m-icon">${I('i-check-circle')}</span>
+        <span class="m-val">31</span>
+        <span class="m-lbl">onboarded MTD</span>
+      </div>
+      <div class="metric">
+        <span class="m-icon">${I('i-chart')}</span>
+        <span class="m-val">2.1%</span>
+        <span class="m-lbl">attrition</span>
+      </div>
+    </div>
+  </section>
+
+  <header class="section-head"><span class="sh-label">Onboarding · in progress</span><span class="sh-count">8</span></header>
+  <ul class="list">
+    ${listRow('i-person',  'Nishant Kohli',     'Appointment letter ready · review')}
+    ${listRow('i-person',  'Priya Vora',        'Background verification complete')}
+    ${listRow('i-person',  'Aditya Sharma',     'Docs rejected · re-verify')}
+    ${listRow('i-person',  '+ 5 more',          'View pipeline in Office tab')}
+  </ul>
+
+  <header class="section-head"><span class="sh-label">This week</span></header>
+  <ul class="list">
+    ${listRow('i-calendar',  'Payroll cutoff', '5 days · Oct cycle preview ready')}
+    ${listRow('i-shield-check','BG verification', 'Vendor returned 3 · 2 clean · 1 flag')}
+    ${listRow('i-airplane',  'Leave approvals',  '12 resolved · avg time 4h')}
+  </ul>
+
+  <p class="hint-cta">Open <b>Office</b> tab for the full HR pipeline + cycles.</p>
+  `;
+}
+
+function teamSummaryManager() {
+  return `
+  <section class="team-summary-h">
+    <div class="tsh-eyebrow">Mumbai Branch · ${todayStr()}</div>
+    <div class="metric-strip">
+      <div class="metric">
+        <span class="m-icon">${I('i-people')}</span>
+        <span class="m-val">312</span>
+        <span class="m-lbl">on rolls</span>
+      </div>
+      <div class="metric">
+        <span class="m-icon">${I('i-bolt')}</span>
+        <span class="m-val">287</span>
+        <span class="m-lbl">in today</span>
+      </div>
+      <div class="metric urgent">
+        <span class="m-icon">${I('i-warn-tri')}</span>
+        <span class="m-val">5</span>
+        <span class="m-lbl">late</span>
+      </div>
+      <div class="metric urgent">
+        <span class="m-icon">${I('i-warn-tri')}</span>
+        <span class="m-val">2</span>
+        <span class="m-lbl">missing</span>
+      </div>
+    </div>
+  </section>
+
+  <header class="section-head"><span class="sh-label">Departments in this branch</span></header>
+  <ul class="list">
+    ${listRow('i-team',     'Engineering',    '14 size · 12 in · 1 late · 1 leave')}
+    ${listRow('i-team',     'Operations',     '38 size · 32 in · 2 late · 4 missing')}
+    ${listRow('i-team',     'Sales',          '57 size · 51 in · 2 late')}
+    ${listRow('i-team',     'Design',         '8 size · 8 in')}
+  </ul>
+
+  <header class="section-head"><span class="sh-label">Today's exceptions</span></header>
+  <ul class="list">
+    ${listRow('i-warn-tri', 'Sahil Kapoor · late 47 min', 'IT · re-verify entry')}
+    ${listRow('i-warn-tri', 'Priya Vora · no punch',      'Ops · contact + grace')}
+  </ul>
+
+  <p class="hint-cta">Open <b>Branch</b> tab for the full attendance roster + branch settings.</p>
+  `;
+}
+
+function teamSummaryTeamLead() {
+  return `
+  <section class="team-summary-h">
+    <div class="tsh-eyebrow">Engineering · Mumbai · ${todayStr()}</div>
+    <div class="metric-strip">
+      <div class="metric">
+        <span class="m-icon">${I('i-team')}</span>
+        <span class="m-val">14</span>
+        <span class="m-lbl">team size</span>
+      </div>
+      <div class="metric">
+        <span class="m-icon">${I('i-bolt')}</span>
+        <span class="m-val">12</span>
+        <span class="m-lbl">active</span>
+      </div>
+      <div class="metric urgent">
+        <span class="m-icon">${I('i-tray')}</span>
+        <span class="m-val">2</span>
+        <span class="m-lbl">approvals</span>
+      </div>
+      <div class="metric">
+        <span class="m-icon">${I('i-clock')}</span>
+        <span class="m-val">4</span>
+        <span class="m-lbl">overdue tasks</span>
+      </div>
+    </div>
+  </section>
+
+  <header class="section-head"><span class="sh-label">Salary range · Engineering</span></header>
+  <section class="salary-card">
+    <div class="sal-row"><span class="sal-lbl">Min</span><span class="sal-val">₹8,90,000</span><span class="sal-meta">Yash B · SDE 1</span></div>
+    <div class="sal-row"><span class="sal-lbl">Median</span><span class="sal-val">₹10,80,000</span><span class="sal-meta">14 engineers</span></div>
+    <div class="sal-row"><span class="sal-lbl">Max</span><span class="sal-val">₹18,40,000</span><span class="sal-meta">Naina J · SDE 3</span></div>
+  </section>
+
+  <header class="section-head"><span class="sh-label">This week</span></header>
+  <ul class="list">
+    ${listRow('i-airplane', '2 leave requests', 'Riya · Sahil — your approval')}
+    ${listRow('i-clock',    '4 overdue tasks',  'Sprint 47 · review with team')}
+    ${listRow('i-calendar', 'Sprint retro',     'Friday 4pm · all hands')}
+  </ul>
+
+  <p class="hint-cta">Open <b>Team</b> tab for the full roster (incl. salary column).</p>
+  `;
+}
+
 /* Setters wired via event delegation in renderBody — see boot below */
+function setMeMode(m)          { state.meMode = m;          renderBody(); }
 function setOfficeMode(m)      { state.officeMode = m;      renderBody(); }
 function setChatFilter(f)      { state.chatFilter = f;      renderBody(); }
 function setWorkspaceFilter(f) { state.workspaceFilter = f; renderBody(); }
@@ -1297,6 +1511,7 @@ document.addEventListener('click', (e) => {
   const ws = e.target.closest('[data-ws]');         if (ws) return setWorkspaceFilter(ws.dataset.ws);
   const cf = e.target.closest('[data-cf]');         if (cf) return setChatFilter(cf.dataset.cf);
   const so = e.target.closest('[data-office]');     if (so) return setOfficeMode(so.dataset.office);
+  const sm = e.target.closest('[data-me]');         if (sm) return setMeMode(sm.dataset.me);
 });
 
 
