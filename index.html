@@ -27,6 +27,12 @@ body{
 .tag{padding:5px 10px;border:1px solid var(--border);border-radius:var(--r-pill);font-size:11px;color:var(--muted);background:rgba(255,255,255,0.02)}
 .tag.brand{color:var(--primary);border-color:rgba(229,206,43,0.3)}
 
+.version-switcher{display:flex;gap:6px;align-items:center;flex-wrap:wrap;margin:0 0 16px;padding:6px 8px;background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:var(--r-pill);width:max-content;max-width:100%;font-size:12px}
+.version-switcher .vs-label{color:var(--muted-2);padding:0 8px 0 6px;letter-spacing:0.08em;text-transform:uppercase;font-size:10px;font-weight:700}
+.version-switcher a{padding:6px 12px;border-radius:var(--r-pill);color:var(--muted);font-weight:500;text-decoration:none;transition:background 0.12s,color 0.12s}
+.version-switcher a:hover{color:var(--fg);background:rgba(255,255,255,0.04)}
+.version-switcher a[aria-current]{background:var(--primary);color:var(--primary-fg);font-weight:600}
+
 .persona-switcher{display:flex;gap:8px;margin:20px 0;padding:6px;background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:14px;flex-wrap:wrap}
 .persona-btn{padding:10px 14px;border:none;background:transparent;color:var(--muted);font-size:13px;font-weight:500;border-radius:10px;cursor:pointer;display:flex;align-items:center;gap:8px;flex:1;min-width:160px;transition:background 0.15s,color 0.15s;font-family:inherit;text-align:left}
 .persona-btn:hover{color:var(--fg);background:rgba(255,255,255,0.04)}
@@ -456,6 +462,12 @@ body{
 </svg>
 
 <div class="page">
+
+  <nav aria-label="Version switcher" class="version-switcher">
+    <span class="vs-label">Version</span>
+    <a href="versions/v1/index.html">v1</a> <a href="versions/v2/index.html">v2</a> <a href="versions/v3/index.html">v3</a> <a href="versions/v4/index.html">v4</a> <a href="versions/v5/index.html">v5</a> <a href="versions/v6/index.html">v6</a> <a href="versions/v7/index.html">v7</a> <a href="versions/v8/index.html">v8</a> <a href="versions/v9/index.html">v9</a> <a href="versions/v10/index.html">v10</a> <a href="versions/v11/index.html">v11</a> <a href="versions/v12/index.html">v12</a> <a href="versions/v13/index.html">v13</a> <a href="versions/v14/index.html">v14</a> <a href="versions/v15/index.html">v15</a> <a href="versions/v16/index.html">v16</a> <a href="versions/v17/index.html">v17</a> <a href="versions/v18/index.html">v18</a> <a href="versions/v19/index.html">v19</a> <a href="versions/v20/index.html">v20</a> <a href="versions/v21/index.html">v21</a> <a href="versions/v22/index.html">v22</a>
+  </nav>
+
   <div class="page-h">
     <h1>EasyDo 365 — iOS Skeleton</h1>
     <p>Pick a persona, then click any tab in the bottom Tab Bar to switch. HRMS users get <b>5 tabs: Home · Workspace · Punch · Chat · Me</b>. App Users (productivity-only) get <b>4 tabs: Home · Workspace · Chat · Me</b> (no Punch).</p>

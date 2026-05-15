@@ -33,7 +33,12 @@ versions/vN/
 | [v14](v14/) | Cult.fit black `#0A0A0A` + electric lime `#D4F33F` · runtime theme switcher | Same v13 layout | Reps · Cult.fit lineage by default · live theme switcher cycles Cult / Swiggy / Zepto / PhonePe · same layout, four palette identities · localStorage persistence |
 | [v15](v15/) | Manila `#F2EAD3` + CRT amber `#FF6B00` + navy `#0E1A2B` · IBM Plex Mono | Same v13 IA | Mainframe · literal IBM punch card hero (column markers · perforated dashed rules · serial-number header · deep-recessed "hole" circle) · mono everywhere · 4px hard stamp shadows · bracket-typography section heads |
 | [v16](v16/) | Near-black `#0A0A0B` + violet `#A78BFA` → cyan `#22D3EE` gradient · light/dark toggle | Same v13 IA | Console · modern dark-mode tech (Linear × Vercel × Cursor × Anthropic) · first dark theme since v1–v5 · single gradient brand mark · glow > shadow · 1px hairline borders · Inter sans + JetBrains Mono · runtime light/dark switcher |
-| [**v17**](v17/) **(current)** | **Mesh gradient (4-blob aurora) + grainy noise · violet `#A855F7` + magenta `#EC4899` + cyan `#06B6D4` + warm pink `#F472B6`** | Same v13 IA | Aurora · 2026 gradient renaissance applied to HRMS · 4 stacked radial-gradient blobs at quadrant anchors · SVG feTurbulence noise overlay (grainy aurora texture) · frosted-glass punch disc with backdrop-blur · 3-keyframe cycling halo (violet → magenta → cyan) · carries v16's light/dark toggle |
+| [v17](v17/) | Mesh gradient (4-blob aurora) + grainy noise · violet `#A855F7` + magenta `#EC4899` + cyan `#06B6D4` + warm pink `#F472B6` | Same v13 IA | Aurora · 2026 gradient renaissance applied to HRMS · 4 stacked radial-gradient blobs at quadrant anchors · SVG feTurbulence noise overlay (grainy aurora texture) · frosted-glass punch disc with backdrop-blur · 3-keyframe cycling halo (violet → magenta → cyan) · carries v16's light/dark toggle |
+| [v18](v18/) | Light · warm coral `#FF6B35` (first non-violet/cobalt/red accent) | **Punch page only** — discarded skeleton | Stacks · widget-gallery applied to HRMS · stack of modular tiles instead of one hero circle · hero tile morphs across four shift states (pre-punch · punch moment · mid-shift · post-punch) · lineage: iOS widget gallery · Apple Sports · Apple Watch face stack · Arc Search |
+| [v19](v19/) | Monochrome · single coral dot `#FF6B35` only when punched in | Punch page only (counter-iteration to v18) | Quiet · Swiss minimalist counter to v18 · no tiles, cards, borders, shadows · hairline dividers only · type does the work · lineage: Apple Health single-stat · iA Writer · Patagonia editorial · Stripe Press · Helvetica Now |
+| [v20](v20/) | Quiet (v19) monochrome · tier-aware topbar chip (`wifi`/`geo`/`gps`) | Punch page only | Quiet + tier-aware · v19 plus verification-source line, tier-aware topbar chip, shift-end-in countdown, and an alert line that appears only when something is wrong · same coral pixel budget |
+| [v21](v21/) | **Live palette customizer** · pick any preset (Swiggy/Zepto/Cult/PhonePe) or HSB-wheel custom; all CSS vars update live | Same Tiffin (v13) skeleton | Palette · sidebar color customizer · brand → soft fills (~12% opacity tint) + deep shades auto-generated · localStorage persistence · shadcn/Coolors export |
+| [**v22**](v22/) **(current)** | v21 palette base · identity vs work split | Profile pill (top nav · slim sheet) + Office tab (Self/Manage segmented) — replaces bottom-bar Me | Profile + Office · avatar pill next to bell opens slim Profile sheet (identity, preferences, sign-out) · bottom Me tab replaced by Office tab carrying a Self/Manage segmented control · Lucide fingerprint-pattern punch icon |
 
 ## Reading order
 
@@ -54,7 +59,15 @@ Each `tokens.json` extracts colors, type scale, radii, and the phone-frame dimen
 
 ## Cross-version navigation
 
-The "Version" switcher at the top of each `index.html` links between sibling versions (`href="../v3/"` etc.). Open any version's `index.html` and you can jump between them.
+The "Version" switcher at the top of each `index.html` (including the landing-page root `/index.html`) links between every version. The switcher markup and this README table are all generated from a single source of truth: `/versions.json` at the project root.
+
+To add a new version:
+
+1. Create `versions/vN/` with `index.html`, `styles.css`, `script.js` (etc.).
+2. Run `node _fix_version_switchers.mjs`. The script will auto-discover the new folder, append it to `versions.json` with a placeholder row (seeded from its `<title>` and `NOTES.md`), promote it to `current`, and regenerate every switcher + this README table.
+3. Edit `versions.json` to refine the theme/IA/headline copy for the new entry. Re-run the script to propagate.
+
+`versions.json` is the only file you ever hand-edit for descriptions. All three nav surfaces (per-version switcher, root switcher, this table) derive from it.
 
 ## Design memory
 

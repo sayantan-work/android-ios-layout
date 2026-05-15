@@ -1,0 +1,159 @@
+{
+  "current": "v22",
+  "versions": [
+    {
+      "id": "v1",
+      "href": "versions/v1/index.html",
+      "theme": "Dark glass · yellow `#E5CE2B`",
+      "ia": "5/4 tabs (`Home·Workspace·[Punch]·Chat·Me`)",
+      "headline": "Foundational iOS skeleton + A/B/D/E personas"
+    },
+    {
+      "id": "v2",
+      "href": "versions/v2/index.html",
+      "theme": "Dark glass · yellow",
+      "ia": "Same as v1",
+      "headline": "Hairline/border tuning"
+    },
+    {
+      "id": "v3",
+      "href": "versions/v3/index.html",
+      "theme": "Dark glass · yellow",
+      "ia": "3 tabs (`Home·Workspace·Chat`) + avatar→Me",
+      "headline": "Compact tab bar experiment + Manage Office sub-screen"
+    },
+    {
+      "id": "v4",
+      "href": "versions/v4/index.html",
+      "theme": "Dark glass · yellow",
+      "ia": "5/4 tabs (reverts v3)",
+      "headline": "GPay icon tray on Home + louder Punch + Me Requests/Salary"
+    },
+    {
+      "id": "v5",
+      "href": "versions/v5/index.html",
+      "theme": "Dark glass · yellow",
+      "ia": "5/4 tabs (canonical)",
+      "headline": "Punch as own tab · Me back in tab bar · avatar removed"
+    },
+    {
+      "id": "v6",
+      "href": "versions/v6/index.html",
+      "theme": "**Light · Groww emerald + GPay blue**",
+      "ia": "3 tabs (`Today·Chats·Office`) + 5 Office sub-tabs",
+      "headline": "Full redesign · real-app grounded · light theme"
+    },
+    {
+      "id": "v7",
+      "href": "versions/v7/index.html",
+      "theme": "Light · emerald + blue (cream bg)",
+      "ia": "**5 flat tabs**, persona-invariant",
+      "headline": "Locked-card permission model replaces conditional tabs"
+    },
+    {
+      "id": "v8",
+      "href": "versions/v8/index.html",
+      "theme": "Pure white · single red `#DC4C3E`",
+      "ia": "Same 5 tabs as v7",
+      "headline": "Todoist visual reset · hairlines, no cards, circle checkboxes"
+    },
+    {
+      "id": "v9",
+      "href": "versions/v9/index.html",
+      "theme": "Warm linen · modern indigo `#5E6AD2` + one dark moment",
+      "ia": "Home · Workspace · **Punch** (center) · Chats · Me",
+      "headline": "Quiet Vault · circle punch + paper-grain RFID · location map · no persona switcher · combined company/branch chip"
+    },
+    {
+      "id": "v10",
+      "href": "versions/v10/index.html",
+      "theme": "Cream paper · stamp-red `#A63D40` · serif everywhere",
+      "ia": "Same 5 tabs as v9",
+      "headline": "Field Ledger · editorial newspaper meets employee logbook · rubber-stamp attendance · postcard treatments · system serif type stack"
+    },
+    {
+      "id": "v11",
+      "href": "versions/v11/index.html",
+      "theme": "Pure white · electric cobalt `#0052FF` · system sans 500–700",
+      "ia": "Same 5 tabs as v9",
+      "headline": "Crisp · Coinbase × Linear × Stripe lineage · no dark band anywhere · solid cobalt fill chips · visible 1px borders + ambient shadows · banking-grade clarity"
+    },
+    {
+      "id": "v12",
+      "href": "versions/v12/index.html",
+      "theme": "Synthesis — v11 cobalt + v8 hairlines + v10 editorial heads + v7 permissions",
+      "ia": "Same 5 tabs as v9",
+      "headline": "Method · 3-tier elevation (hairline / subtle / hero) · attendance logbook · small-caps section heads on hairline rule · dedicated announcements screen"
+    },
+    {
+      "id": "v13",
+      "href": "versions/v13/index.html",
+      "theme": "Zomato red `#E23744` + Swiggy green + Zepto pink + Cult orange · multi-color hierarchy",
+      "ia": "Same 5 tabs as v9",
+      "headline": "Tiffin · Indian consumer-app energy applied to HRMS · FAB-style punch · saturated colored shadows · status chips speak Swiggy delivery-state · violet→pink gradient avatar · references FoodDash (designmd.ai/chef/fooddash)"
+    },
+    {
+      "id": "v14",
+      "href": "versions/v14/index.html",
+      "theme": "Cult.fit black `#0A0A0A` + electric lime `#D4F33F` · runtime theme switcher",
+      "ia": "Same v13 layout",
+      "headline": "Reps · Cult.fit lineage by default · live theme switcher cycles Cult / Swiggy / Zepto / PhonePe · same layout, four palette identities · localStorage persistence"
+    },
+    {
+      "id": "v15",
+      "href": "versions/v15/index.html",
+      "theme": "Manila `#F2EAD3` + CRT amber `#FF6B00` + navy `#0E1A2B` · IBM Plex Mono",
+      "ia": "Same v13 IA",
+      "headline": "Mainframe · literal IBM punch card hero (column markers · perforated dashed rules · serial-number header · deep-recessed \"hole\" circle) · mono everywhere · 4px hard stamp shadows · bracket-typography section heads"
+    },
+    {
+      "id": "v16",
+      "href": "versions/v16/index.html",
+      "theme": "Near-black `#0A0A0B` + violet `#A78BFA` → cyan `#22D3EE` gradient · light/dark toggle",
+      "ia": "Same v13 IA",
+      "headline": "Console · modern dark-mode tech (Linear × Vercel × Cursor × Anthropic) · first dark theme since v1–v5 · single gradient brand mark · glow > shadow · 1px hairline borders · Inter sans + JetBrains Mono · runtime light/dark switcher"
+    },
+    {
+      "id": "v17",
+      "href": "versions/v17/index.html",
+      "theme": "Mesh gradient (4-blob aurora) + grainy noise · violet `#A855F7` + magenta `#EC4899` + cyan `#06B6D4` + warm pink `#F472B6`",
+      "ia": "Same v13 IA",
+      "headline": "Aurora · 2026 gradient renaissance applied to HRMS · 4 stacked radial-gradient blobs at quadrant anchors · SVG feTurbulence noise overlay (grainy aurora texture) · frosted-glass punch disc with backdrop-blur · 3-keyframe cycling halo (violet → magenta → cyan) · carries v16's light/dark toggle"
+    },
+    {
+      "id": "v18",
+      "href": "versions/v18/index.html",
+      "theme": "Light · warm coral `#FF6B35` (first non-violet/cobalt/red accent)",
+      "ia": "**Punch page only** — discarded skeleton",
+      "headline": "Stacks · widget-gallery applied to HRMS · stack of modular tiles instead of one hero circle · hero tile morphs across four shift states (pre-punch · punch moment · mid-shift · post-punch) · lineage: iOS widget gallery · Apple Sports · Apple Watch face stack · Arc Search"
+    },
+    {
+      "id": "v19",
+      "href": "versions/v19/index.html",
+      "theme": "Monochrome · single coral dot `#FF6B35` only when punched in",
+      "ia": "Punch page only (counter-iteration to v18)",
+      "headline": "Quiet · Swiss minimalist counter to v18 · no tiles, cards, borders, shadows · hairline dividers only · type does the work · lineage: Apple Health single-stat · iA Writer · Patagonia editorial · Stripe Press · Helvetica Now"
+    },
+    {
+      "id": "v20",
+      "href": "versions/v20/index.html",
+      "theme": "Quiet (v19) monochrome · tier-aware topbar chip (`wifi`/`geo`/`gps`)",
+      "ia": "Punch page only",
+      "headline": "Quiet + tier-aware · v19 plus verification-source line, tier-aware topbar chip, shift-end-in countdown, and an alert line that appears only when something is wrong · same coral pixel budget"
+    },
+    {
+      "id": "v21",
+      "href": "versions/v21/index.html",
+      "theme": "**Live palette customizer** · pick any preset (Swiggy/Zepto/Cult/PhonePe) or HSB-wheel custom; all CSS vars update live",
+      "ia": "Same Tiffin (v13) skeleton",
+      "headline": "Palette · sidebar color customizer · brand → soft fills (~12% opacity tint) + deep shades auto-generated · localStorage persistence · shadcn/Coolors export"
+    },
+    {
+      "id": "v22",
+      "href": "versions/v22/index.html",
+      "theme": "v21 palette base · identity vs work split",
+      "ia": "Profile pill (top nav · slim sheet) + Office tab (Self/Manage segmented) — replaces bottom-bar Me",
+      "headline": "Profile + Office · avatar pill next to bell opens slim Profile sheet (identity, preferences, sign-out) · bottom Me tab replaced by Office tab carrying a Self/Manage segmented control · Lucide fingerprint-pattern punch icon"
+    }
+  ]
+}
