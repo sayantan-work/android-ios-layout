@@ -1,5 +1,5 @@
 {
-  "current": "v22",
+  "current": "v23",
   "versions": [
     {
       "id": "v1",
@@ -154,6 +154,13 @@
       "theme": "v21 palette base · identity vs work split",
       "ia": "Profile pill (top nav · slim sheet) + Office tab (Self/Manage segmented) — replaces bottom-bar Me",
       "headline": "Profile + Office · avatar pill next to bell opens slim Profile sheet (identity, preferences, sign-out) · bottom Me tab replaced by Office tab carrying a Self/Manage segmented control · Lucide fingerprint-pattern punch icon"
+    },
+    {
+      "id": "v23",
+      "href": "versions/v23/index.html",
+      "theme": "SF-Symbol icons · light · per-role accent palette (navy / plum / teal / olive / coral / amber)",
+      "ia": "Role-aware tab bar — six distinct Home heroes (owner · admin · manager · team_lead · employee · member); same chassis, different content shape",
+      "headline": "Role-distinct heroes · first version to drop the \"one hero for everyone\" mistake · mirrors backend authz.ts ROLE_CATALOG one-to-one · Owner gets attention queue · Admin gets onboarding pipeline · Manager gets branch pulse · Team Lead gets team roster with salary peek · Employee keeps Punch · Member gets onboarding checklist · landing demo defaults to Owner so the first frame for execs/investors is \"decision queue for a multi-branch business,\" not \"tap to clock in\""
     }
   ]
 }
